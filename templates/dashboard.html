@@ -1,0 +1,61 @@
+{% extends "base.html" %} {% block title %}{{ user.user_name }}'s Dashboard{% endblock %} {% block content
+ %}
+    <h2>{{ user.user_name }}'s Dashboard</h2>
+    <br />
+    <h2>Your Domains List:</h2>
+    <ul class="list-group list-group-flush" id="domains">
+        {% for domain in user.domains %}
+    <li class="list-group-item">
+        {{ domain.data }}
+        <button type="button" class="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </li>
+        {% endfor %}
+    </ul>
+    <br />
+    <h2>Your Latest Monitoring Results:</h2>
+    <ul class="list-group list-group-flush" id="last_results">
+        {% for result in user.results %}
+    <li class="list-group-item">
+        {{ result.data }}
+        <button type="button" class="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </li>
+        {% endfor %}
+    </ul>
+    <br />
+    <h2>Monitor Domains:</h2>
+    <form id="single-monitor-form" method="POST" action="/add_domain">
+    <label class="single-label">Single Domain:</label>
+    <input type="text" class="single" id="single" placeholder="Example.com">
+    <button type="submit" class="single-submit">Monitor Domain</button>
+    </form>
+    <br />
+    <form id="bulk-monitor-form" method="POST" action="bulk_upload">
+    <label class="bulk-label">Upload Bulk Domains</label>
+    <input type="file" class="bulk" id="bulk" accept=".txt" placeholder="Upload .txt File">
+    <button type="submit" class="bulk-submit">Monitor Domains</button>
+    </form>
+    <form id="result-form" method="GET">
+        <h3>Results:</h3>
+        <div>
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Domain Name</th>
+                        <th>Liveness Status</th>
+                        <th>SSL Certificate Expiration Date</th>
+                        <th>SSL Certificate Issuer</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    <!-- JavaScript will dynamically add rows here -->
+                </tbody>
+            </table>        
+        </div>
+    </form>
+
+
+{% endblock %}
