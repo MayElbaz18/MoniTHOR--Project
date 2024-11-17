@@ -1,8 +1,8 @@
 from flask import Flask, session, render_template_string, render_template
-from user import register_user
-from user import login_user
-from domain import add_domain ,add_bulk
-from check_liveness import livness_check
+from pythonBE import user , Domain, check_liveness
+# from user import login_user
+# from domain import add_domain ,add_bulk
+# from check_liveness import livness_check
 
 
 
@@ -19,16 +19,16 @@ def login():
     username = request.args.get('username',default=None)
     password = request.args.get('password',default=None)
     print( f"{username} {password}")    #
-    status = login_user(username,password) 
+    status = user.login_user(username,password) 
     print (username)
     if "Login Successful"== status['message']:
         session['user']=username
-    session['message']=login_user(username,password)  
+    session['message']=user.login_user(username,password)  
     return render_template_string("<h1>{{session['message']['message']}}.</h1>")
 
 @app.route('/0', methods=['GET'])
 def main():
-    return render_template('dashboard.html', title='Weather App')
+    return render_template('dashboard.html', user=session['user'])
 
   
 
@@ -51,7 +51,7 @@ def register():
     username = request.args.get('username',default=None)
     password = request.args.get('password',default=None)
     print( f"{username} {password}")  
-    session['message']=register_user(username,password)  
+    session['message']=user.register_user(username,password)  
     return render_template_string("<h1>{{session['message']['message']}}.</h1>")
 
 
@@ -83,11 +83,11 @@ def submit_data():
     data = request.get_json()  # Parse JSON payload
     return {"received": data}, 200
 
-@app.route('/add_domain/<domain>')
+@app.route('/add_domain/<domain>',methods=['GET', 'POST'])
 def add_new_domain(domain):
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>")      
-    session['message'] = add_domain(session['user'],domain)     
+    session['message'] =Domain.add_domain(session['user'],domain)     
     return render_template_string("<h1>{{session['message']['message']}}.</h1>")
 
 
@@ -95,7 +95,7 @@ def add_new_domain(domain):
 def add_from_file(filename):
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>")           
-    session['message']=add_bulk(session['user'],filename)  
+    session['message']=Domain.add_bulk(session['user'],filename)  
     return render_template_string("<h1>{{session['message']}}.</h1>")
 
 
@@ -118,7 +118,7 @@ def search():
 def check_livness(username):    
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>") 
-    return livness_check (username)
+    return check_liveness.livness_check (username)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
