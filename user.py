@@ -32,21 +32,24 @@ def register_user (userName,password) :
     with open('users.json', 'w') as f:
         json.dump(currentListOfUsers, f, indent=4)
         return successMessage
-    
+
+
+# Login function
 def login_user (userName,password) :
         
         successMessage = { 'message' : "Login Successful"}
         failureMessage = { 'message' : "error : invalid user name or password"} 
         
+        # Create users file if not exist 
         if not os.path.exists('users.json'):
             return failureMessage
         
+        # loadin current data fro users file and convert to list 
         with open('users.json', 'r') as f:
             current_info = json.load(f)
             currentListOfUsers=list(current_info)
     
-    
-
+        # checking is user in file , if yes , validating password 
         for user in currentListOfUsers :        
             if user['username'] == userName:
                 if user['password']== password:
