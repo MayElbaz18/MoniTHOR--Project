@@ -1,4 +1,4 @@
-from flask import Flask ,session,render_template_string
+from flask import Flask, session, render_template_string, render_template
 from user import register_user
 from user import login_user
 from domain import add_domain ,add_bulk
@@ -23,16 +23,24 @@ def login():
     print (username)
     if "Login Successful"== status['message']:
         session['user']=username
-    return login_user(username,password)  
-    
+    session['message']=login_user(username,password)  
+    return render_template_string("<h1>{{session['message']['message']}}.</h1>")
+
+@app.route('/0', methods=['GET'])
+def main():
+    return render_template('dashboard.html', title='Weather App')
+
+  
 
 @app.route('/logoff', methods=['GET'])
 def logoff():
     user=session['user']
-    session['user']=""
     if user=="":
-        return "No user is logged in"
-    return f"User {user} is logged off"
+        return  render_template_string("<h1>No user is logged in.</h1>")
+    session['message']=f"User {session['user']} is logged off now."
+    session['user']=""
+    print (session['message'])
+    return   render_template_string("<h1>{{session['message']}}</h1>")
 
 
 
@@ -42,8 +50,9 @@ def logoff():
 def register():
     username = request.args.get('username',default=None)
     password = request.args.get('password',default=None)
-    print( f"{username} {password}")    #
-    return register_user(username,password)  
+    print( f"{username} {password}")  
+    session['message']=register_user(username,password)  
+    return render_template_string("<h1>{{session['message']['message']}}.</h1>")
 
 
 
@@ -76,11 +85,20 @@ def submit_data():
 
 @app.route('/add_domain/<domain>')
 def add_new_domain(domain):
-    return add_domain(session['user'],domain)  
-    
+    if session['user']=="" :
+        return render_template_string("<h1>No User is logged in </h1>")      
+    session['message'] = add_domain(session['user'],domain)     
+    return render_template_string("<h1>{{session['message']['message']}}.</h1>")
+
+
 @app.route('/add_bulk/<filename>')
 def add_from_file(filename):
-    return add_bulk(session['user'],filename)  
+    if session['user']=="" :
+        return render_template_string("<h1>No User is logged in </h1>")           
+    session['message']=add_bulk(session['user'],filename)  
+    return render_template_string("<h1>{{session['message']}}.</h1>")
+
+
     
     
 def save_to_file(text):
@@ -98,6 +116,8 @@ def search():
 
 @app.route('/check/<username>')
 def check_livness(username):    
+    if session['user']=="" :
+        return render_template_string("<h1>No User is logged in </h1>") 
     return livness_check (username)
 
 if __name__ == '__main__':
