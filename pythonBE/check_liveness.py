@@ -30,7 +30,9 @@ def livness_check (username):
         while not urls_queue.empty():
             url = urls_queue.get()
             certInfo= check_certificate.check_cert(url) 
-            result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":certInfo[0],"ssl_Issuer": certInfo[1]}  # Default to FAILED
+            result = {'domain': url, 'status_code': 'FAILED',
+                      "ssl_expiration":certInfo[0],
+                      "ssl_Issuer": certInfo[1]}  # Default to FAILED
             try:
                 response = requests.get(f'http://{url}', timeout=1)
                 if response.status_code == 200:

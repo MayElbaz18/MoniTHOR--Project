@@ -2,10 +2,12 @@ import os
 import json
 
   
-def register_user (userName,password) :
+def register_user (userName,password1,password2) :
 
     successMessage = { 'message' : "Registered successfully"}
     failureMessage = { 'message' : "Username already taken"}
+    emptyMessage = {'message' : "Username or password is Empty"}
+    passwordMessage = {'message' : "Passwords do not match"}
 
 # checking if users file is exist , if not it will be created 
     if not os.path.exists('users.json'):
@@ -16,16 +18,18 @@ def register_user (userName,password) :
         current_info = json.load(f)
         currentListOfUsers=list(current_info)
     
-    
+    if password1 != password2:
+        return passwordMessage
 
     for user in currentListOfUsers :
         if user['username'] == userName:
             return failureMessage
- 
     
+    # check if the user name and password empty
+    if not userName and not password1 and not password2:
+        return emptyMessage
     
-    
-    newUser ={'username':userName,'password': password }
+    newUser ={'username':userName,'password': password1 }
     currentListOfUsers.append(newUser)
 
         

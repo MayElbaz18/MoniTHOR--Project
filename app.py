@@ -8,10 +8,14 @@ app.secret_key = 'NOT_TO_BAD_SECRET_KEY'
 
 @app.route('/', methods=['GET'])
 def home():
-    return "Welcome to my Flask app!"
+    username = session['user']
+    if username:
+        return render_template('dashboard.html', user=username)
+    else:
+        return render_template('login.html')
 
 #  http://127.0.0.1:8080/login?username=<username>&password=<password>
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     username = request.args.get('username',default=None)
     password = request.args.get('password',default=None)
@@ -20,9 +24,9 @@ def login():
     print (username)
     if "Login Successful"== status['message']:
         session['user']=username
-        return render_template('dashboard.html', user=session['user'])
+        return "Login Successful"
     session['message']=user.login_user(username,password)  
-    return render_template_string("<h1>{{session['message']['message']}}.</h1>")
+    return render_template('login.html')
 
 @app.route('/0', methods=['GET'])
 def main():
@@ -38,19 +42,36 @@ def logoff():
     session['message']=f"User {session['user']} is logged off now."
     session['user']=""
     print (session['message'])
-    return   render_template_string("<h1>{{session['message']}}</h1>")
+    return  render_template('login.html')
 
 
 
 
-#  http://127.0.0.1:8080/register?username=<username>&password=<password>
-@app.route('/register', methods=['GET'])
+#  http://127.0.0.1:8080/register?username=<username>&password1=<password1>&password2=<password2>
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     username = request.args.get('username',default=None)
-    password = request.args.get('password',default=None)
-    print( f"{username} {password}")  
-    session['message']=user.register_user(username,password)  
-    return render_template_string("<h1>{{session['message']['message']}}.</h1>")
+    password1 = request.args.get('password1',default=None)
+    password2 = request.args.get('password2',default=None)
+    print(f"Received: username={username}, password1={password1}, password2={password2}")
+    
+    # Validate input parameters
+    if not username or not password1 or not password2:
+        session['message'] = {'message': 'All fields are required'}
+        return render_template('register.html')
+
+    if password1 != password2:
+        session['message'] = {'message': 'Passwords do not match'}
+        return render_template('register.html')
+
+    # Process registration
+    status = user.register_user(username, password1)
+    session['message'] = status
+
+    if status['message'] == "Registered successfully":
+        return "Registered successfully"  
+    else:
+        return status['message']  
 
 
 
