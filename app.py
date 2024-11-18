@@ -87,7 +87,7 @@ def submit_data():
 def add_new_domain(domain):
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>")      
-    session['message'] =Domain.add_domain(session['user'],domain)     
+    session['message'] =domain.add_domain(session['user'],domain)     
     return render_template_string("<h1>{{session['message']['message']}}.</h1>")
 
 
@@ -95,7 +95,7 @@ def add_new_domain(domain):
 def add_from_file(filename):
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>")           
-    session['message']=Domain.add_bulk(session['user'],filename)  
+    session['message']=domain.add_bulk(session['user'],filename)  
     return render_template_string("<h1>{{session['message']}}.</h1>")
 
 
