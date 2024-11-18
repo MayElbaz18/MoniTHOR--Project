@@ -20,6 +20,7 @@ def login():
     print (username)
     if "Login Successful"== status['message']:
         session['user']=username
+        return render_template('dashboard.html', user=session['user'])
     session['message']=user.login_user(username,password)  
     return render_template_string("<h1>{{session['message']['message']}}.</h1>")
 
@@ -83,7 +84,7 @@ def submit_data():
 @app.route('/add_domain/<domainName>',methods=['GET', 'POST'])
 def add_new_domain(domainName):
     if session['user']=="" :
-        return render_template_string("<h1>No User is logged in </h1>")      
+        return render_template_string("<h1>No User is logged in </h1>")     
     session['message'] =domain.add_domain(session['user'],domainName)     
     return render_template_string("<h1>{{session['message']['message']}}.</h1>")
 
