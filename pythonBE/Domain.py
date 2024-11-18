@@ -46,10 +46,15 @@ def add_domain (userName,domain) :
 def add_bulk(userName,fileName):
     fileName=fileName.replace('"','')
     print (fileName , userName)
-    with open(fileName, 'r') as infile:
-        for line in infile:
-            add_domain(userName,line.strip())
-    return "bulk upload finished"
+    try:
+        with open(fileName, 'r') as infile:
+            for line in infile:
+                add_domain(userName,line.strip())
+    
+    except Exception as e:
+        return (str(e))
+     
+    return "Bulk upload finished"
 
 
 
