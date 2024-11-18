@@ -1,8 +1,5 @@
 from flask import Flask, session, render_template_string, render_template
-from pythonBE import user , domain, check_liveness
-# from user import login_user
-# from domain import add_domain ,add_bulk
-# from check_liveness import livness_check
+from pythonBE import user , check_liveness ,domain
 
 
 
@@ -83,22 +80,21 @@ def submit_data():
     data = request.get_json()  # Parse JSON payload
     return {"received": data}, 200
 
-@app.route('/add_domain/<domain>',methods=['GET', 'POST'])
-def add_new_domain(domain):
+@app.route('/add_domain/<domainName>',methods=['GET', 'POST'])
+def add_new_domain(domainName):
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>")      
-    session['message'] =domain.add_domain(session['user'],domain)     
+    session['message'] =domain.add_domain(session['user'],domainName)     
     return render_template_string("<h1>{{session['message']['message']}}.</h1>")
 
-
+# usage : http://127.0.0.1:8080/add_bulk/.%5Cuserdata%5CDomains_for_upload.txt 
+# using  %5C instaed of  "\"  
 @app.route('/add_bulk/<filename>')
-def add_from_file(filename):
+def add_from_file(filename):    
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>")           
     session['message']=domain.add_bulk(session['user'],filename)  
     return render_template_string("<h1>{{session['message']}}.</h1>")
-
-
     
     
 def save_to_file(text):
