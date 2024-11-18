@@ -3,7 +3,7 @@ import json
 import concurrent.futures
 from queue import Queue
 import time
-from pythonBE import check_certificate as CC
+from pythonBE import check_certificate 
 import os
 
 def livness_check (username):
@@ -29,7 +29,7 @@ def livness_check (username):
     def check_url():
         while not urls_queue.empty():
             url = urls_queue.get()
-            certInfo= CC(url) 
+            certInfo= check_certificate.check_cert(url) 
             result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":certInfo[0],"ssl_Issuer": certInfo[1]}  # Default to FAILED
             try:
                 response = requests.get(f'http://{url}', timeout=1)
