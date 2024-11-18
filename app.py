@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template_string, render_template
-from pythonBE import user , Domain, check_liveness
+from pythonBE import user , domain, check_liveness
 # from user import login_user
 # from domain import add_domain ,add_bulk
 # from check_liveness import livness_check
