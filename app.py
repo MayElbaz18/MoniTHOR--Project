@@ -59,7 +59,7 @@ def register():
     if password1 != password2:
         session['message'] = {'message': 'Passwords do not match'} 
     if status['message'] == "Registered successfully":
-        return "Registered successfully"         
+        return render_template('login.html')         
 
     return render_template('register.html')
     
