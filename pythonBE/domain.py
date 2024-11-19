@@ -61,15 +61,9 @@ def add_bulk(userName,fileName):
 
 # Function to validate the domain name
 
-def is_valid_domain(s):
+def is_valid_domain(s):    
     # Regex to check valid Domain Name
-    pattern = r"^[A-Za-z0-9-]{1,63}\.[A-Za-z0-9-]{0,63}\.[A-Za-z]{2,6}$"
-    #pattern= r"^((?!-)[A-Za-z0-9-]{1, 63}(?<!-)\\.)+[A-Za-z]{2, 6}$"
-
-    # Return true if the string matches the regex
-    #return bool(re.match(pattern, s))
-    return True
-
-
-# add_bulk("alex" , "Domains_for_upload.txt")
-# add_bulk("Eli" , "Domains_for_upload.txt")
+    pattern= r"^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})$"         
+    
+    # Return string matche value - bool
+    return bool(re.match(pattern,s))
