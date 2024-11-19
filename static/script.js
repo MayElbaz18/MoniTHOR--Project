@@ -40,7 +40,7 @@ async function Register(UserName, Password1, Password2) {
     let data = await response.text();
     console.log(data);
 
-    if (response.ok && data.includes("Registered successfully")) {
+    if (data.includes("Registered successfully")) {
         // Redirect to the login page after successful registration
         window.location.href = '/login';
     } else {
@@ -76,17 +76,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
             })
             .catch(error => console.error('Error:', error));
         });
-    }
-
-    // Apply AJAX form submission for login and register forms
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-
-    if (loginForm) {
-        ajaxFormSubmit(loginForm, '/login');
-    }
-
-    if (registerForm) {
-        ajaxFormSubmit(registerForm, '/register');
     }
 });
