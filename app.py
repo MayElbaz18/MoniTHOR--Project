@@ -50,25 +50,19 @@ def register():
     password1 = request.args.get('password1',default=None)
     password2 = request.args.get('password2',default=None)
     print(f"Received: username={username}, password1={password1}, password2={password2}")
-    
+    # Process registration
+    status = user.register_user(username, password1, password2)
+
     # Validate input parameters
     if not username or not password1 or not password2:
         session['message'] = {'message': 'All fields are required'}
-        return render_template('register.html')
-
     if password1 != password2:
-        session['message'] = {'message': 'Passwords do not match'}
-        return render_template('register.html')
-
-    # Process registration
-    status = user.register_user(username, password1)
-    session['message'] = status
-
+        session['message'] = {'message': 'Passwords do not match'} 
     if status['message'] == "Registered successfully":
-        return "Registered successfully"  
-    else:
-        return status['message']  
+        return "Registered successfully"         
 
+    return render_template('register.html')
+    
 
 
 
