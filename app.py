@@ -8,10 +8,6 @@ app.secret_key = 'NOT_TO_BAD_SECRET_KEY'
 
 @app.route('/', methods=['GET'])
 def home():
-    username = session['user']
-    if username:
-        return render_template('dashboard.html', user=username)
-    else:
         return render_template('login.html')
 
 #  http://127.0.0.1:8080/login?username=<username>&password=<password>
