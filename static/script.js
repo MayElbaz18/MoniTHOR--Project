@@ -1,56 +1,65 @@
-const logform = document.getElementById('login-form');
-
-logform.addEventListener('submit', function(event) {
-    console.log('login-form is submitted!');
-    event.preventDefault();
-
-    let UserName = document.getElementById('username').value;
-    let Password = document.getElementById('password').value;
-    console.log(`username=${UserName}&password=${Password} Login!`);
-    Login(UserName, Password)
-})
-
-async function Login(UserName, Password) {
-    let response = await fetch(`/login?username=${UserName}&password=${Password}`)
-    let data = await response.text();
-    console.log(data)
-    
-    if (data.includes("Login Successful")) {
-        alert("Logged In Successfully")
-        // Redirect to the dashboard page after successful login
-        window.location.href = '/0';
-    } else {
-        // If login failed, show an error message
-        alert('Invalid username or password!');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     console.log('JavaScript is loaded.');
 
-    // Function to handle form submissions via AJAX
-    function ajaxFormSubmit(form, url) {
-        form.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-            const formData = new FormData(form);
-            const jsonData = JSON.stringify(Object.fromEntries(formData));
-            
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonData
-            })
-            .then(response => response.json())
-            .then(data => {
+    // Login form submission
+    const logform = document.getElementById('login-form');
+    if (logform) {
+        logform.addEventListener('submit', async function (event) {
+            console.log('login-form is submitted!');
+            event.preventDefault();
+
+            const UserName = document.getElementById('username').value;
+            const Password = document.getElementById('password').value;
+            console.log(`username=${UserName}&password=${Password} Login!`);
+
+            try {
+                const response = await fetch(`/login?username=${UserName}&password=${Password}`);
+                const data = await response.text();
                 console.log(data);
-                if (data.message) {
-                    alert(data.message);
+
+                if (data.includes("Login Successful")) {
+                    alert("Logged In Successfully");
+                    window.location.href = '/0'; // Redirect after successful login
+                } else {
+                    alert('Invalid username or password!');
                 }
-                // Update the DOM or navigate if necessary
-            })
-            .catch(error => console.error('Error:', error));
+            } catch (error) {
+                console.error('Error during login:', error);
+            }
         });
+    } else {
+        console.warn('Login form not found.');
+    }
+
+    // Single-monitor form submission
+    const monitorForm = document.getElementById('single-monitor-form');
+    if (monitorForm) {
+        monitorForm.addEventListener('submit', async function (event) {
+            console.log('single-monitor-form is submitted!');
+            event.preventDefault();
+
+            const domainInput = document.getElementById('single').value.trim();
+            const errorMessage = document.getElementById('error-message');
+            console.log(domainInput);
+
+            const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/;
+
+            if (!domainRegex.test(domainInput)) {
+                errorMessage.style.display = "block"; // Display error as block
+                errorMessage.textContent = "Please enter a valid domain name.";
+            } else {
+                errorMessage.style.display = "none"; // Hide the error message
+                try {
+                    const response = await fetch(`/add_domain/${domainInput}`);
+                    const data = await response.text();
+                    console.log(data);
+                    alert('Domain is monitored');
+                } catch (error) {
+                    console.error('Error adding domain:', error);
+                }
+            }
+        });
+    } else {
+        console.warn('Single-monitor form not found.');
     }
 });

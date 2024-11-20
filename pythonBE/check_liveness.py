@@ -5,6 +5,7 @@ from queue import Queue
 import time
 from pythonBE import check_certificate 
 import os
+from pythonBE.logs import logger
 
 def livness_check (username):
     # Measure start time
@@ -27,6 +28,7 @@ def livness_check (username):
 
     # Define the URL checking function with a timeout and result storage
     def check_url():
+        logger.debug(f'Function is invoked {check_url}')
         while not urls_queue.empty():
             url = urls_queue.get()
             certInfo= check_certificate.check_cert(url) 

@@ -1,5 +1,6 @@
 from flask import Flask, session, render_template_string, render_template
 from pythonBE import user , check_liveness ,domain
+from pythonBE.logs import logger
 
 
 
@@ -95,10 +96,15 @@ def submit_data():
 
 @app.route('/add_domain/<domainName>',methods=['GET', 'POST'])
 def add_new_domain(domainName):
+    logger.debug(f'Route being code {domainName}')
     if session['user']=="" :
-        return render_template_string("<h1>No User is logged in </h1>")     
-    session['message'] =domain.add_domain(session['user'],domainName)     
-    return render_template_string("<h1>{{session['message']['message']}}.</h1>")
+        return render_template_string("<h1>No User is logged in </h1>") 
+      # Get the domain name from the form data
+    logger.debug(f'Domain name is {domainName}')
+        
+    response = domain.add_domain(session['user'],domainName)
+    check_liveness.livness_check (session['user'])
+    return render_template_string("<h1>{{response}}.</h1>")
 
 # usage : http://127.0.0.1:8080/add_bulk/.%5Cuserdata%5CDomains_for_upload.txt 
 # using  %5C instaed of  "\"  
@@ -106,7 +112,8 @@ def add_new_domain(domainName):
 def add_from_file(filename):    
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>")           
-    session['message']=domain.add_bulk(session['user'],filename)  
+    response = domain.add_bulk(session['user'],filename)
+    check_liveness.livness_check (session['user'])  
     return render_template_string("<h1>{{session['message']}}.</h1>")
     
     

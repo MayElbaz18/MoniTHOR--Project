@@ -1,10 +1,11 @@
 import os
 import json
 import re
+from pythonBE.logs import logger
 
 
 def add_domain (userName,domain) :
-
+    logger.debug(f'Function is invoked {userName}, {domain}')
     successMessage = { 'message' : "Domain successfully added"}
     failureMessageExist = { 'message' : "Domain already exist in file"}
     failureMessageNotValid = { 'message' : "Invalid Domain Name"}

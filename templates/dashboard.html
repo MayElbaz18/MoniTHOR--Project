@@ -1,39 +1,13 @@
 {% extends "base.html" %} {% block title %}{{ session['user'] }}'s Dashboard{% endblock %} {% block content
  %}
-    <h2>{{ session['user'] }}'s Dashboard</h2>
-    <br />
-    <form id="domains-form">
-      <h2>Your Domains List:</h2>
-      <ul class="list-group list-group-flush" id="domains">
-         {% for domain in user.domains %}
-         <li class="list-group-item">
-         {{ domain.data }}
-         <button type="button" class="close">
-             <span aria-hidden="true">&times;</span>
-         </button>
-         </li>
-         {% endfor %}
-     </ul>
-    </form>
-    <form id="monitoring-form">
-      <h2>Your Latest Monitoring Results:</h2>
-      <ul class="list-group list-group-flush" id="last_results">
-         {% for result in user.results %}
-         <li class="list-group-item">
-         {{ result.data }}
-         <button type="button" class="close">
-             <span aria-hidden="true">&times;</span>
-         </button>
-         </li>
-         {% endfor %}
-        </ul>
-    </form>
+    <h2 id="Dashboard">{{ session['user'] }}'s Dashboard</h2>
     <br />
     <h2>Monitor Domains:</h2>
-    <form id="single-monitor-form" method="POST" action="/add_domain">
+    <form id="single-monitor-form" method="POST" action="/add_domain/">
       <label class="single-label">Single Domain:</label>
       <input type="text" class="single" id="single" placeholder="Example.com">
       <button type="submit" class="single-submit">Monitor Domain</button>
+      <p id="error-message" style="color: red; display: none;">Please enter a valid domain name.</p>
     </form>
     <form id="bulk-monitor-form" method="POST" action="bulk_upload">
      <label class="bulk-label">Upload Bulk Domains:</label>
@@ -58,6 +32,32 @@
             </table>        
         </div>
     </form>
+    <form id="domains-form">
+        <h2>Your Domains List:</h2>
+        <ul class="list-group list-group-flush" id="domains">
+           {% for domain in user.domains %}
+           <li class="list-group-item">
+           {{ domain.data }}
+           <button type="button" class="close">
+               <span aria-hidden="true">&times;</span>
+           </button>
+           </li>
+           {% endfor %}
+       </ul>
+      </form>
+      <form id="monitoring-form">
+        <h2>Your Latest Monitoring Results:</h2>
+        <ul class="list-group list-group-flush" id="last_results">
+           {% for result in user.results %}
+           <li class="list-group-item">
+           {{ result.data }}
+           <button type="button" class="close">
+               <span aria-hidden="true">&times;</span>
+           </button>
+           </li>
+           {% endfor %}
+          </ul>
+      </form>
 
 
 {% endblock %}

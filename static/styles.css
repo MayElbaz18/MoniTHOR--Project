@@ -32,6 +32,15 @@ h2 {
     border-radius: 8px;
 }
 
+#Dashboard {
+    padding: 10px;
+    background: linear-gradient(145deg, #3ade60, #e5b02b);
+    color: #060501;
+    width: 45%;
+    margin-left: 28%;
+    border-radius: 8px;
+}
+
 h3 {
     padding: 10px;
     background-color: #f1c42f;
@@ -49,7 +58,7 @@ h3 {
 
 form {
     background: linear-gradient(145deg, #E6CEA5, #C4B07F); /* Subtle gradient for 3D feel */
-    padding: 70px;
+    padding: 50px;
     margin: 20px 0;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), /* Deep shadow for depth */
     -10px -10px 20px rgba(255, 255, 255, 0.7); /* Highlight for light source */
