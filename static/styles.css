@@ -1,110 +1,123 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f4f8; /* Light grey-blue */
-    color: #333; /* Dark grey for text */
-    margin: 0;
-    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    text-align: center !important; /* All Text In The Center */
+    background-image: url('https://images.squarespace-cdn.com/content/v1/56ca3bbeb654f92cd6eaa060/1583181671123-3ARP8GLDZMIZPWK3IU11/INternet+Security+privacy.png?format=1500w');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-    padding: 20px;
-}
-
-header {
-    background: #2b3a42; /* Dark blue-grey */
-    color: #ffffff; /* White */
-    padding-top: 30px;
-    min-height: 70px;
-    border-bottom: #1d2b34 3px solid; /* Slightly darker blue-grey */
-}
-
-header a {
-    color: #ffffff; /* White */
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 16px;
-}
-
-header ul {
-    padding: 0;
-    list-style: none;
-    display: flex;
-    justify-content: flex-end;
-}
-
-header ul li {
-    display: inline;
-    padding: 0 20px;
-}
-
-h1, h2 {
+h1, h2, h3 {
     color: #2b3a42; /* Dark blue-grey */
 }
 
-form {
-    background: #ffffff; /* White */
-    padding: 20px;
+h1 {
+    background: linear-gradient(145deg, #6168f1, #c0a254); /* Subtle gradient for 3D feel */
+    padding: 25px;
     margin: 20px 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-    border-radius: 8px; /* Rounded corners */
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), /* Deep shadow for depth */
+    -10px -10px 20px rgba(255, 255, 255, 0.7); /* Highlight for light source */
+    border-radius: 8px; /* Smooth corners */
+    position: relative;
+    width: 70%;
+    margin-left: 250px;
+    border: 1px solid rgba(0, 0, 0, 0.1); 
 }
 
-form input[type="text"], form input[type="password"], form input[type="submit"] {
-    width: 100%;
+h2 {
     padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc; /* Light grey border */
+    background-color: #f1c42f;
+    width: 40%;
+    margin-left: 30%;
+    border-radius: 8px;
+}
+
+h3 {
+    padding: 10px;
+    background-color: #f1c42f;
+    width: 40%;
+    margin-left: 30%;
+    border-radius: 8px;
+}
+
+ h3 a {
+    color: #30a8e8;
+    padding: 8px;
+    background-color: #5ff393;
+    border-radius: 8px;
+ }
+
+form {
+    background: linear-gradient(145deg, #E6CEA5, #C4B07F); /* Subtle gradient for 3D feel */
+    padding: 70px;
+    margin: 20px 0;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), /* Deep shadow for depth */
+    -10px -10px 20px rgba(255, 255, 255, 0.7); /* Highlight for light source */
+    border-radius: 8px; /* Smooth corners */
+    position: relative;
+    width: 70%;
+    margin-left: 250px;
+    border: 1px solid rgba(0, 0, 0, 0.1); 
+}
+
+form input[type="text"], form input[type="password"], form input[type="submit"]  {
+    width: 20%;
+    padding: 10px;
+    margin: 30px 0;
+    border: 1px solid #f0f403; /* Light grey border */
     border-radius: 4px; /* Slightly rounded corners */
-}
-
-form input[type="submit"] {
-    background: #2b3a42; /* Dark blue-grey */
-    color: #ffffff; /* White */
-    border: 0;
-    cursor: pointer;
-}
-
-form input[type="submit"]:hover {
-    background: #1d2b34; /* Slightly darker blue-grey */
-}
-
-.alert {
-    padding: 20px;
-    background-color: #f44336; /* Red */
-    color: white;
-    margin-bottom: 15px;
-}
-
-.success {
-    padding: 20px;
-    background-color: #4CAF50; /* Green */
-    color: white;
-    margin-bottom: 15px;
-}
-
-.info {
-    padding: 20px;
-    background-color: #2196F3; /* Blue */
-    color: white;
-    margin-bottom: 15px;
-}
-
-.warning {
-    padding: 20px;
-    background-color: #ff9800; /* Orange */
-    color: white;
-    margin-bottom: 15px;
-}
-
-footer {
-    background: #2b3a42; /* Dark blue-grey */
-    color: #ffffff; /* White */
     text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
 }
+
+form button[type="submit"]  {
+    background: #1bdf60;
+    color: black;
+    border: 1px solid #f0f403;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+form input[type="file"] {
+    background: #92ecb2;
+    color: #880f0f;
+    border: 1px solid #f0f403;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+form button[type="submit"]:hover {
+    background: #f9db86; /* Slightly darker blue-grey */
+}
+
+label {
+    font-size: medium;
+    border: 1px solid #f0f403;
+    border-radius: 5px;
+    font-weight: bold;
+    color: aquamarine;
+    background-color: black;
+    padding: 8px;
+}
+
+/*-----Table-----*/
+table {
+    width: 70%;
+    border-collapse: collapse;
+    margin: 20px auto;
+  }
+  table, th, td {
+    border: 1px solid black;
+  }
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  th {
+    background-color: #d4e554;
+  }
+  caption {
+    font-size: 1.5em;
+    margin: 10px 0;
+  }

@@ -2,44 +2,46 @@
  %}
     <h2>{{ session['user'] }}'s Dashboard</h2>
     <br />
-    <h2>Your Domains List:</h2>
-    <ul class="list-group list-group-flush" id="domains">
-        {% for domain in user.domains %}
-    <li class="list-group-item">
-        {{ domain.data }}
-        <button type="button" class="close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </li>
-        {% endfor %}
-    </ul>
-    <br />
-    <h2>Your Latest Monitoring Results:</h2>
-    <ul class="list-group list-group-flush" id="last_results">
-        {% for result in user.results %}
-    <li class="list-group-item">
-        {{ result.data }}
-        <button type="button" class="close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </li>
-        {% endfor %}
-    </ul>
+    <form id="domains-form">
+      <h2>Your Domains List:</h2>
+      <ul class="list-group list-group-flush" id="domains">
+         {% for domain in user.domains %}
+         <li class="list-group-item">
+         {{ domain.data }}
+         <button type="button" class="close">
+             <span aria-hidden="true">&times;</span>
+         </button>
+         </li>
+         {% endfor %}
+     </ul>
+    </form>
+    <form id="monitoring-form">
+      <h2>Your Latest Monitoring Results:</h2>
+      <ul class="list-group list-group-flush" id="last_results">
+         {% for result in user.results %}
+         <li class="list-group-item">
+         {{ result.data }}
+         <button type="button" class="close">
+             <span aria-hidden="true">&times;</span>
+         </button>
+         </li>
+         {% endfor %}
+        </ul>
+    </form>
     <br />
     <h2>Monitor Domains:</h2>
     <form id="single-monitor-form" method="POST" action="/add_domain">
-    <label class="single-label">Single Domain:</label>
-    <input type="text" class="single" id="single" placeholder="Example.com">
-    <button type="submit" class="single-submit">Monitor Domain</button>
+      <label class="single-label">Single Domain:</label>
+      <input type="text" class="single" id="single" placeholder="Example.com">
+      <button type="submit" class="single-submit">Monitor Domain</button>
     </form>
-    <br />
     <form id="bulk-monitor-form" method="POST" action="bulk_upload">
-    <label class="bulk-label">Upload Bulk Domains</label>
-    <input type="file" class="bulk" id="bulk" accept=".txt" placeholder="Upload .txt File">
-    <button type="submit" class="bulk-submit">Monitor Domains</button>
+     <label class="bulk-label">Upload Bulk Domains:</label>
+     <input type="file" class="bulk" id="bulk" accept=".txt">
+     <button type="submit" class="bulk-submit">Monitor Domains</button>
     </form>
+    <h3>Results:</h3>
     <form id="result-form" method="GET">
-        <h3>Results:</h3>
         <div>
             <table id="resultsTable">
                 <thead>
