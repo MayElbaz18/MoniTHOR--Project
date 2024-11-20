@@ -16,7 +16,7 @@ async function Login(UserName, Password) {
     console.log(data)
     
     if (data.includes("Login Successful")) {
-        alert("Loged In Successfully")
+        alert("Logged In Successfully")
         // Redirect to the dashboard page after successful login
         window.location.href = '/0';
     } else {
