@@ -41,7 +41,7 @@ h3 {
 }
 
  h3 a {
-    color: #30a8e8;
+    color: #000608;
     padding: 8px;
     background-color: #5ff393;
     border-radius: 8px;
@@ -70,17 +70,18 @@ form input[type="text"], form input[type="password"], form input[type="submit"] 
 }
 
 form button[type="submit"]  {
-    background: #1bdf60;
-    color: black;
+    font-size: medium;
     border: 1px solid #f0f403;
     border-radius: 5px;
-    cursor: pointer;
+    font-weight: bold;
+    color: aquamarine;
+    background-color: black;
     padding: 8px;
 }
 
 form input[type="file"] {
     background: #92ecb2;
-    color: #880f0f;
+    color: #060000;
     border: 1px solid #f0f403;
     cursor: pointer;
     padding: 5px;
@@ -88,7 +89,7 @@ form input[type="file"] {
 }
 
 form button[type="submit"]:hover {
-    background: #f9db86; /* Slightly darker blue-grey */
+    background: #d9d6cd; /* Slightly darker blue-grey */
 }
 
 label {
