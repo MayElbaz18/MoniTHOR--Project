@@ -46,20 +46,21 @@ def logoff():
 #  http://127.0.0.1:8080/register?username=<username>&password1=<password1>&password2=<password2>
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    username = request.args.get('username',default=None)
-    password1 = request.args.get('password1',default=None)
-    password2 = request.args.get('password2',default=None)
+    username = request.args.get('username')
+    password1 = request.args.get('password1')
+    password2 = request.args.get('password2')
     print(f"Received: username={username}, password1={password1}, password2={password2}")
     # Process registration
     status = user.register_user(username, password1, password2)
 
     # Validate input parameters
-    if not username or not password1 or not password2:
-        session['message'] = {'message': 'All fields are required'}
     if password1 != password2:
         session['message'] = {'message': 'Passwords do not match'} 
-    if status['message'] == "Registered successfully":
-        return render_template('login.html')         
+        return "Passwords do not match"
+    if status['message'] == 'Username already taken':
+        return "Username already taken"
+    if status['message'] == 'Registered successfully':
+        return "Registered successfully"         
 
     return render_template('register.html')
     

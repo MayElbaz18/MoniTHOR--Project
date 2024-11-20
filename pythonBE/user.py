@@ -1,11 +1,12 @@
 import os
 import json
-
+import app
+from app import register
   
 def register_user (userName,password1,password2) :
 
-    successMessage = { 'message' : "Registered successfully"}
-    failureMessage = { 'message' : "Username already taken"}
+    successMessage = {'message' : "Registered successfully"}
+    failureMessage = {'message' : "Username already taken"}
     emptyMessage = {'message' : "Username or password is Empty"}
     passwordMessage = {'message' : "Passwords do not match"}
 
@@ -25,8 +26,8 @@ def register_user (userName,password1,password2) :
         if user['username'] == userName:
             return failureMessage
     
-    # check if the user name and password empty
-    if not userName and not password1 and not password2:
+    # check if the user name and password empty 
+    if not userName or not password1 or not password2:
         return emptyMessage
     
     newUser ={'username':userName,'password': password1 }
