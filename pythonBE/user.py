@@ -1,7 +1,5 @@
 import os
 import json
-import app
-from app import register
   
 def register_user (userName,password1,password2) :
 
