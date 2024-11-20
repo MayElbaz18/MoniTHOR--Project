@@ -2,7 +2,7 @@ import ssl
 import socket
 from datetime import datetime
 
-def check_cert(url):
+def certificate_check(url):
     try:
         # Remove "https://", "http://", "www." from the URL if present
         hostname = url.replace("https://", "").replace("http://", "").replace("www.", "").split("/")[0]
@@ -18,18 +18,25 @@ def check_cert(url):
                 
         # Get the certificate's expiration date
         expiry_date_str = cert['notAfter']
-        expiry_date = datetime.strptime(expiry_date_str, "%b %d %H:%M:%S %Y %Z")
+        expiry_date = datetime.strptime(expiry_date_str, "%b %d %H:%M:%S %Y %Z")        
+               
         
         # Convert expiration date to a readable string format
         expiry_date_formatted = expiry_date.strftime("%Y-%m-%d %H:%M:%S")
-        ssl_issuer = cert['issuer'][0][0][1]
+                      
+        issued_by = dict(x[0] for x in cert['issuer'])
+        issuer = issued_by['organizationName']
+
+               
         
         # Check if the certificate is expired
-        return expiry_date_formatted , ssl_issuer
+        return expiry_date_formatted , issuer
         
     except Exception as e:
         return 'failed', str(e)
 
 
-# Example usage
-#print(check_certificate("https://oracle.com"))
+#Example usage
+#dir
+# print(certificate_check("https://oracle.com"))
+

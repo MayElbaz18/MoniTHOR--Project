@@ -5,12 +5,11 @@ from queue import Queue
 import time
 from pythonBE import check_certificate 
 import os
-from pythonBE.logs import logger
 
 def livness_check (username):
     # Measure start time
     start_time = time.time()
-
+    print("*")
     urls_queue = Queue()
     analyzed_urls_queue = Queue()
 
@@ -23,18 +22,20 @@ def livness_check (username):
     for d in currentListOfDomains :        
         urls_queue.put(d['domain']) 
             
+    print("*")
+
 
     print(f"Total URLs to check: {urls_queue.qsize()}")
 
     # Define the URL checking function with a timeout and result storage
     def check_url():
-        logger.debug(f'Function is invoked {check_url}')
         while not urls_queue.empty():
             url = urls_queue.get()
-            certInfo= check_certificate.check_cert(url) 
-            result = {'domain': url, 'status_code': 'FAILED',
-                      "ssl_expiration":certInfo[0],
-                      "ssl_Issuer": certInfo[1]}  # Default to FAILED
+            
+            certInfo=check_certificate.certificate_check(url) 
+            
+            print(certInfo)
+            result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":certInfo[0],"ssl_Issuer": certInfo[1]}  # Default to FAILED
             try:
                 response = requests.get(f'http://{url}', timeout=1)
                 if response.status_code == 200:
@@ -77,4 +78,3 @@ def livness_check (username):
     with open(f'./userdata/{username}_domains.json', 'r') as f:
         results = json.load(f)
     return results
-
