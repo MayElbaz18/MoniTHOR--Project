@@ -114,7 +114,7 @@ def add_from_file(filename):
         return render_template_string("<h1>No User is logged in </h1>")           
     response = domain.add_bulk(session['user'],filename)
     check_liveness.livness_check (session['user'])  
-    return render_template_string("<h1>{{session['message']}}.</h1>")
+    return render_template_string("<h1>{{response}}.</h1>")
     
     
 def save_to_file(text):
