@@ -115,6 +115,16 @@ def add_new_domain(domainName):
     return domain.add_domain(session['user'],domainName)   
     
 
+@app.route('/remove_domain/<domainName>',methods=['GET', 'POST'])
+def remove_domain(domainName):
+    logger.debug(f'Route being code {domainName}')
+    if session['user']=="" :
+        return render_template_string("<h1>No User is logged in </h1>") 
+    # Get the domain name from the form data
+    logger.debug(f'Domain name is {domainName}')    
+    return domain.remove_domain(session['user'],domainName)   
+
+
 @app.route('/single_domain/<domainName>',methods=['GET', 'POST'])
 def single_domain(domainName):
     logger.debug(f'Route being code {domainName}')
