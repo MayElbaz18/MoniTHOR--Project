@@ -4,6 +4,38 @@ import re
 from pythonBE.logs import logger
 
 
+def single_domain (userName,domain) :
+    logger.debug(f'Function is invoked {userName}, {domain}')
+    successMessage = { 'message' : "Domain successfully added"}    
+    failureMessageNotValid = { 'message' : "Invalid Domain Name"}
+    
+    domain=domain.replace('"','')
+    
+    if not is_valid_domain(domain):
+        return failureMessageNotValid
+
+    userDoaminFile=f'./userdata/{userName}_domain.json'
+    print(userDoaminFile)
+    
+    
+    with open(userDoaminFile, 'w') as f:
+        f.write("{}")   
+    
+
+    with open(userDoaminFile, 'r') as f:
+        current_info = json.load(f)
+        currentListOfDomains=list(current_info)
+
+
+
+
+    newDomain ={'domain':domain,'status':'unknown','ssl_expiration':'unknown','ssl_issuer':'unknown' }    
+    currentListOfDomains.append(newDomain)        
+
+    with open(userDoaminFile, 'w') as f:
+        json.dump(currentListOfDomains, f, indent=4)        
+        return successMessage
+
 def add_domain (userName,domain) :
     logger.debug(f'Function is invoked {userName}, {domain}')
     successMessage = { 'message' : "Domain successfully added"}
