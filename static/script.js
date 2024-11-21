@@ -62,4 +62,46 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn('Single-monitor form not found.');
     }
+
+
+
+    const bulkForm = document.getElementById('bulk-monitor-form');
+    if (bulkForm) {
+        bulkForm.addEventListener('submit', async function (event) {
+            console.log('bulk-monitor-form is submitted!');
+            event.preventDefault();
+
+            const bulkFileInput = document.getElementById('bulk').value.trim();
+            const errorMessage = document.getElementById('error-message');
+            console.log(bulkFileInput);            
+            let fileName =bulkFileInput.replaceAll("/","%5C")
+            fileName = fileName.replaceAll("\\","%5C")
+            console.log(fileName);            
+
+            try {
+                    const response = await fetch(`bulk_upload/${fileName}`);
+                    const data = await response.text();
+                    console.log(data);
+                    alert('Bulk upload');
+                } catch (error) {
+                    console.error('Error adding domain:', error);
+                }
+            }
+        );
+			
+
+
+
+
+    }else {
+        console.warn('Single-monitor form not found.');
+    }
+
+
+
+
+
+
+
+
 });
