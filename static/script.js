@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response2 = await fetch(`check/${username}`);
                     const checkData = await response2.text();
                     console.log(checkData);
-                    alert('Bulk upload');
+                    alert('Check is finished');
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
