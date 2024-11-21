@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const checkData = await response2.text();
                     console.log(checkData);
                     alert('single upload');
+                    location.reload();
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
@@ -111,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const checkData = await response2.text();
                     console.log(checkData);
                     alert('Check is finished');
+                    location.reload();
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
