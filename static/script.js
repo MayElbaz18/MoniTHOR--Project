@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response1 = await fetch(`bulk_upload/${fileName}`);
                     const uploadData = await response1.text();
                     console.log(uploadData);
-                    alert('Bulk upload');
+                    alert('Bulk uploaded');
                 } catch (error) {
                     console.error('Error adding domain:', error);
                 }
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response2 = await fetch(`check/${username}`);
                     const checkData = await response2.text();
                     console.log(checkData);
-                    alert('Bulk upload');
+                    alert('Check is finished');
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
