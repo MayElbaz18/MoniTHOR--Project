@@ -6,25 +6,26 @@ import time
 from pythonBE import check_certificate 
 import os
 
-def livness_check (username):
+def livness_check (username,all=True):
     # Measure start time
-    start_time = time.time()
-    print("*")
+    start_time = time.time()    
     urls_queue = Queue()
     analyzed_urls_queue = Queue()
-
-    if not os.path.exists(f'./userdata/{username}_domains.json'):
+    if all == True :
+        fileToCheck=f'./userdata/{username}_domains.json'
+    else:
+        fileToCheck=f'./userdata/{username}_domain.json'
+    
+    if not os.path.exists(fileToCheck):
         return "Domains file is not exist"
         
-    with open(f'./userdata/{username}_domains.json', 'r') as f:
+    with open(fileToCheck, 'r') as f:
         currentListOfDomains=list(json.load(f))       
      
     for d in currentListOfDomains :        
         urls_queue.put(d['domain']) 
-            
-    print("*")
-
-
+         
+    
     print(f"Total URLs to check: {urls_queue.qsize()}")
 
     # Define the URL checking function with a timeout and result storage
@@ -78,3 +79,7 @@ def livness_check (username):
     with open(f'./userdata/{username}_domains.json', 'r') as f:
         results = json.load(f)
     return results
+
+
+
+

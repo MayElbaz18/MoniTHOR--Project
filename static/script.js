@@ -53,12 +53,21 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 errorMessage.style.display = "none"; // Hide the error message
                 try {
-                    const response = await fetch(`/add_domain/${domainInput}`);
+                    const response = await fetch(`/single_domain/${domainInput}`);
                     const data = await response.text();
                     console.log(data);
                     alert('Domain is monitored');
                 } catch (error) {
                     console.error('Error adding domain:', error);
+                }
+
+                try {
+                    const response2 = await fetch(`single_check/${username}`);
+                    const checkData = await response2.text();
+                    console.log(checkData);
+                    alert('single upload');
+                } catch (error) {
+                    console.error('Error runing check:', error);
                 }
             }
         });

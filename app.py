@@ -105,6 +105,16 @@ def add_new_domain(domainName):
     return domain.add_domain(session['user'],domainName)   
     
 
+@app.route('/single_domain/<domainName>',methods=['GET', 'POST'])
+def single_domain(domainName):
+    logger.debug(f'Route being code {domainName}')
+    if session['user']=="" :
+        return render_template_string("<h1>No User is logged in </h1>") 
+    # Get the domain name from the form data
+    logger.debug(f'Domain name is {domainName}')
+        
+    return domain.single_domain(session['user'],domainName)   
+
 # usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
 # using  %5C instaed of  "\"  
 #  in UI put    ./userdata/Domains_for_upload.txt
@@ -134,6 +144,16 @@ def check_livness(username):
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>") 
     return check_liveness.livness_check (username)
+
+
+
+
+@app.route('/single_check/<username>')
+def single_check_livness(username):    
+    if session['user']=="" :
+        return render_template_string("<h1>No User is logged in </h1>") 
+    return check_liveness.livness_check (username,False)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
