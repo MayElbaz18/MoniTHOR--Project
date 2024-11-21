@@ -106,12 +106,14 @@ def add_new_domain(domainName):
     check_liveness.livness_check (session['user'])
     return render_template_string("<h1>{{response}}.</h1>")
 
-# usage : http://127.0.0.1:8080/add_bulk/.%5Cuserdata%5CDomains_for_upload.txt 
+# usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
 # using  %5C instaed of  "\"  
-@app.route('/add_bulk/<filename>')
+#  in UI put    ./userdata/Domains_for_upload.txt
+@app.route('/bulk_upload/<filename>')
 def add_from_file(filename):    
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>")           
+    print (filename)
     response = domain.add_bulk(session['user'],filename)
     check_liveness.livness_check (session['user'])  
     return render_template_string("<h1>{{response}}.</h1>")
