@@ -1,7 +1,8 @@
 from flask import Flask, session, render_template_string, render_template
 from pythonBE import user , check_liveness ,domain
 from pythonBE.logs import logger
-
+import json
+import os
 
 
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
@@ -25,11 +26,20 @@ def login():
     session['message']=user.login_user(username,password)  
     return render_template('login.html')
 
-@app.route('/0', methods=['GET'])
+@app.route('/dashboard', methods=['GET'])
 def main():
-    return render_template('dashboard.html', user=session['user'])
+    user_file = f'./userdata/{session['user']}_domains.json'
+    if os.path.exists(user_file):
+     with open(user_file, 'r') as f:
+          data = json.load(f)
+    else:
+        data = []      
 
-  
+    # Extract the required parts for the forms
+    all_domains = [item['domain'] for item in data]  # List of domain names
+    latest_results = data[:6]  # Last 6 results
+
+    return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results)
 
 @app.route('/logoff', methods=['GET'])
 def logoff():

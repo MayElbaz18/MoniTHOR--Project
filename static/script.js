@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (data.includes("Login Successful")) {
                     alert("Logged In Successfully");
-                    window.location.href = '/0'; // Redirect after successful login
+                    window.location.href = '/dashboard'; // Redirect after successful login
                 } else {
                     alert('Invalid username or password!');
                 }
@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = await response.text();
                     console.log(data);
                     alert('Domain is monitored');
+                    location.reload();
                 } catch (error) {
                     console.error('Error adding domain:', error);
                 }
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
+    // Bulk-monitor form submission
     const bulkForm = document.getElementById('bulk-monitor-form');
     if (bulkForm) {
         bulkForm.addEventListener('submit', async function (event) {
@@ -83,25 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = await response.text();
                     console.log(data);
                     alert('Bulk upload');
+                    location.reload();
                 } catch (error) {
                     console.error('Error adding domain:', error);
                 }
             }
         );
-			
-
-
-
-
     }else {
-        console.warn('Single-monitor form not found.');
+        console.warn('Bulk-monitor form not found.');
     }
-
-
-
-
-
-
-
-
 });
