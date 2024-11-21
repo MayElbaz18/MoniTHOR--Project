@@ -37,10 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
         monitorForm.addEventListener('submit', async function (event) {
             console.log('single-monitor-form is submitted!');
             event.preventDefault();
-
+            const title = document.getElementById('Dashboard').innerText;
             const domainInput = document.getElementById('single').value.trim();
             const errorMessage = document.getElementById('error-message');
+            
+            let username=title.replace("\'s Dashboard","")
             console.log(domainInput);
+            console.log(username);
 
             const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/;
 
@@ -71,31 +74,45 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('bulk-monitor-form is submitted!');
             event.preventDefault();
 
-            const bulkFileInput = document.getElementById('bulk').value.trim();
+            const title = document.getElementById('Dashboard').innerText;  
+            const bulkFileInput = document.getElementById('bulk').value.trim();         
             const errorMessage = document.getElementById('error-message');
+            let username=title.replace("\'s Dashboard","")
+
+            console.log(username)
             console.log(bulkFileInput);            
             let fileName =bulkFileInput.replaceAll("/","%5C")
             fileName = fileName.replaceAll("\\","%5C")
             console.log(fileName);            
 
             try {
-                    const response = await fetch(`bulk_upload/${fileName}`);
-                    const data = await response.text();
-                    console.log(data);
+                    const response1 = await fetch(`bulk_upload/${fileName}`);
+                    const uploadData = await response1.text();
+                    console.log(uploadData);
                     alert('Bulk upload');
                 } catch (error) {
                     console.error('Error adding domain:', error);
                 }
+
+            
+                try {
+                    const response2 = await fetch(`check/${username}`);
+                    const checkData = await response2.text();
+                    console.log(checkData);
+                    alert('Bulk upload');
+                } catch (error) {
+                    console.error('Error runing check:', error);
+                }
+            
             }
         );
 			
 
-
-
-
     }else {
-        console.warn('Single-monitor form not found.');
+        console.warn('Bulk-monitor form not found.');
     }
+
+    
 
 
 

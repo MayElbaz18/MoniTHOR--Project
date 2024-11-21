@@ -99,12 +99,11 @@ def add_new_domain(domainName):
     logger.debug(f'Route being code {domainName}')
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>") 
-      # Get the domain name from the form data
+    # Get the domain name from the form data
     logger.debug(f'Domain name is {domainName}')
         
-    response = domain.add_domain(session['user'],domainName)
-    check_liveness.livness_check (session['user'])
-    return render_template_string("<h1>{{response}}.</h1>")
+    return domain.add_domain(session['user'],domainName)   
+    
 
 # usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
 # using  %5C instaed of  "\"  
@@ -114,9 +113,7 @@ def add_from_file(filename):
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>")           
     print (filename)
-    response = domain.add_bulk(session['user'],filename)
-    check_liveness.livness_check (session['user'])  
-    return render_template_string("<h1>{{response}}.</h1>")
+    return domain.add_bulk(session['user'],filename)
     
     
 def save_to_file(text):
