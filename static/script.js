@@ -57,9 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = await response.text();
                     console.log(data);
                     alert('Domain is monitored');
-                    setTimeout(() => {
-                        location.reload();
-                    }, 3000); // 3000 milliseconds = 3 seconds
                 } catch (error) {
                     console.error('Error adding domain:', error);
                 }
@@ -105,9 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const uploadData = await response1.text();
                     console.log(uploadData);
                     alert('Bulk upload');
-                    setTimeout(() => {
-                        location.reload();
-                    }, 3000); // 3000 milliseconds = 3 seconds
                 } catch (error) {
                     console.error('Error adding domain:', error);
                 }
