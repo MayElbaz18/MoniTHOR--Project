@@ -58,7 +58,7 @@ def livness_check (username,all=False):
             analyzed_urls_queue.task_done()
 
         # Write results to JSON file
-        with open(f'./userdata/{username}_domains.json', 'w') as outfile:
+        with open(fileToCheck, 'w') as outfile:
             json.dump(results, outfile, indent=4)
         print("Report generated in report.json")
 
