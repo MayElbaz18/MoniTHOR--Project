@@ -12,7 +12,8 @@
     <form id="bulk-monitor-form" method="POST" action="bulk_upload">
      <label class="bulk-label">Upload Bulk Domains:</label>
      <input type="text" class="bulk" id="bulk" placeholder="userdata/Domains_for_upload.txt">
-     <button type="submit" class="bulk-submit">Monitor Domains</button>
+     <button type="submit" class="bulk-submit" name="action" value="upload-check">Upload Domains</button>
+     <button type="submit" class="check-submit" name="action" value="check" >Run Check</button>
     </form>
     <h3>Results:</h3>
     <form id="result-form" method="GET">

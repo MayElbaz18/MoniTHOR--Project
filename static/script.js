@@ -90,13 +90,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const bulkFileInput = document.getElementById('bulk').value.trim();         
             const errorMessage = document.getElementById('error-message');
             let username=title.replace("\'s Dashboard","")
+            var actionValue = document.activeElement.value;
+            console.log(actionValue)
 
             console.log(username)
             console.log(bulkFileInput);            
             let fileName =bulkFileInput.replaceAll("/","%5C")
             fileName = fileName.replaceAll("\\","%5C")
             console.log(fileName);            
-
+            if (actionValue === "upload-check") {
             try {
                     const response1 = await fetch(`bulk_upload/${fileName}`);
                     const uploadData = await response1.text();
@@ -106,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Error adding domain:', error);
                 }
 
-            
+            }
                 try {
                     const response2 = await fetch(`check/${username}`);
                     const checkData = await response2.text();
