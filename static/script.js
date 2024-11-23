@@ -124,5 +124,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }else {
         console.warn('Bulk-monitor form not found.');
     }
-
+    
 });
+
+    // Delete domain function
+    function removeDomain(buttonElement) {
+        console.log("Remove button clicked.");
+        const listItem = buttonElement.closest("li");
+        if (!listItem) {
+            console.log("Could not find the parent list item.");
+            return;
+        }
+    
+        // Extract the domain name and clean it
+        let domainName = listItem.firstChild.textContent.trim();
+        console.log(`Extracted domain name (raw): ${domainName}`);
+    
+        // Remove unnecessary parts (e.g., "Remove" from text if it's being included)
+        domainName = domainName.replace("Remove", "").trim();
+        console.log(`Cleaned domain name: ${domainName}`);
+    
+        fetch(`/remove_domain/${encodeURIComponent(domainName)}`, {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Server response:", data);
+                if (data.message === "Domain successfully removed") {
+                    listItem.remove();
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    }
+    

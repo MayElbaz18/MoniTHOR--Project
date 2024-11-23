@@ -45,7 +45,7 @@
            {% for domain in all_domains %}
            <li class="list-group-item">
            {{ domain }}
-           <button type="button" class="close">
+           <button type="button" class="close" onclick="removeDomain(this)">
                <span aria-hidden="true">&times;</span>
            </button>
            </li>
