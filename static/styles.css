@@ -111,6 +111,25 @@ label {
     padding: 8px;
 }
 
+/*----List----*/
+.list-group-item {
+    width: 80%;
+    margin-left: 10%;
+    background-color: #f1deaa !important;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.close:hover {
+    color: red !important;
+}
+.close:active {
+    border: none !important;
+}
+
 /*-----Table-----*/
 table {
     width: 70%;
