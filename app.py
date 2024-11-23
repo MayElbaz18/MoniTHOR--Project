@@ -163,7 +163,7 @@ def search():
 def check_livness(username):    
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>") 
-    return check_liveness.livness_check (username)
+    return check_liveness.livness_check (username,True)
 
 
 

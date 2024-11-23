@@ -6,7 +6,7 @@ import time
 from pythonBE import check_certificate 
 import os
 
-def livness_check (username,all=True):
+def livness_check (username,all=False):
     # Measure start time
     start_time = time.time()    
     urls_queue = Queue()
