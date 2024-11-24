@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('Check is finished');
                     setTimeout(() => {
                         location.reload();
-                    }, 3000); // 3000 milliseconds = 3 seconds
+                    }, 4000); // 4000 milliseconds = 4 seconds
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
