@@ -6,6 +6,10 @@ import time
 from pythonBE import check_certificate 
 import os
 
+# livness and ssl info function , for single domain file "all=False" , for domains file "all=True"
+# function will read Domain/Domains file and will update relevant fields in file 
+# 'domain','status_code',"ssl_expiration","ssl_Issuer" 
+
 def livness_check (username,all=False):
     # Measure start time
     start_time = time.time()    

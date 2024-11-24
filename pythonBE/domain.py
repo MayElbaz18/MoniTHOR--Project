@@ -4,39 +4,7 @@ import re
 from pythonBE.logs import logger
 
 
-def single_domain (userName,domain) :
-    logger.debug(f'Function is invoked {userName}, {domain}')
-    successMessage = { 'message' : "Domain successfully added"}    
-    failureMessageNotValid = { 'message' : "Invalid Domain Name"}
-    
-    domain=domain.replace('"','')
-    
-    if not is_valid_domain(domain):
-        return failureMessageNotValid
-
-    userDoaminFile=f'./userdata/{userName}_domain.json'
-    print(userDoaminFile)
-    
-    
-    with open(userDoaminFile, 'w') as f:
-        f.write("{}")   
-    
-
-    with open(userDoaminFile, 'r') as f:
-        current_info = json.load(f)
-        currentListOfDomains=list(current_info)
-
-
-
-
-    newDomain ={'domain':domain,'status':'unknown','ssl_expiration':'unknown','ssl_issuer':'unknown' }    
-    currentListOfDomains.append(newDomain)        
-
-    with open(userDoaminFile, 'w') as f:
-        json.dump(currentListOfDomains, f, indent=4)        
-        return successMessage
-
-def add_domain (userName,domain) :
+def add_domain (userName,domain,domainsFile=False) :
     logger.debug(f'Function is invoked {userName}, {domain}')
     successMessage = { 'message' : "Domain successfully added"}
     failureMessageExist = { 'message' : "Domain already exist in file"}
@@ -47,15 +15,18 @@ def add_domain (userName,domain) :
     if not is_valid_domain(domain):
         return failureMessageNotValid
 
-    userDoaminFile=f'./userdata/{userName}_domains.json'
+    if domainsFile==True:
+        userDoaminFile=f'./userdata/{userName}_domains.json'
+    else:
+        userDoaminFile=f'./userdata/{userName}_domain.json'
     
-    if not os.path.exists(userDoaminFile):
+    if not os.path.exists(userDoaminFile) or domainsFile==False:
         with open(userDoaminFile, 'w') as f:
             f.write("{}")
 
 
 
-    with open(f'./userdata/{userName}_domains.json', 'r') as f:
+    with open(f'{userDoaminFile}', 'r') as f:
         current_info = json.load(f)
         currentListOfDomains=list(current_info)
         
@@ -68,8 +39,13 @@ def add_domain (userName,domain) :
     
     currentListOfDomains.append(newDomain)        
 
+    if domainsFile==False:
+            print(f"{userName},{domain},{domainsFile}")
+            add_domain(userName,domain,True)
+
     with open(userDoaminFile, 'w') as f:
         json.dump(currentListOfDomains, f, indent=4)        
+      
         return successMessage
 
 
@@ -116,7 +92,7 @@ def add_bulk(userName,fileName):
     try:
         with open(fileName, 'r') as infile:
             for line in infile:
-                add_domain(userName,line.strip())
+                add_domain(userName,line.strip(),True)
     
     except Exception as e:
         return (str(e))

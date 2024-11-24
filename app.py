@@ -133,7 +133,7 @@ def single_domain(domainName):
     # Get the domain name from the form data
     logger.debug(f'Domain name is {domainName}')
         
-    return domain.single_domain(session['user'],domainName)   
+    return domain.add_domain(session['user'],domainName,False)   
 
 # usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
 # using  %5C instaed of  "\"  
