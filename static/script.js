@@ -163,3 +163,49 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error("Error:", error));
     }
     
+    // Cancel Schedule Job Function
+    function cancelJob(jobId) {
+        fetch(`/cancel_job/${jobId}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Job canceled successfully!');
+                location.reload();
+            } else {
+                alert('Failed to cancel the job.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred.');
+        });
+    }
+    
+    // JavaScript Function for Form Submission
+    document.getElementById('schedule-monitoring-form').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        // Gather form data
+        const formData = new FormData(this);
+
+        try {
+            // Send a POST request with form data
+            const response = await fetch('/schedule_bulk_monitoring', {
+                method: 'POST',
+                body: formData, // Use FormData directly for form-encoded submission
+            });
+
+            if (response.ok) {
+                const data = await response.json(); // Parse the JSON response
+                alert(data.message); // Show the success message
+                window.location.href = '/dashboard'; // Redirect to the dashboard
+            } else {
+                alert('Failed to schedule monitoring. Please check your input and try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An unexpected error occurred. Please try again later.');
+        }
+    });
+

@@ -3,10 +3,61 @@ from pythonBE import user , check_liveness ,domain
 from pythonBE.logs import logger
 import json
 import os
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.date import DateTrigger
+import pytz
+import uuid
+from datetime import datetime 
 
 
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
 app.secret_key = 'NOT_TO_BAD_SECRET_KEY'
+
+# Initialize scheduler
+scheduler = BackgroundScheduler()
+scheduler.start()
+
+scheduled_jobs = [] # Store scheduled jobs
+
+@app.route('/schedule_bulk_monitoring', methods=['POST'])
+def schedule_bulk_monitoring():
+    # Get form data
+    schedule_time = request.form['schedule_time']
+    timezone = request.form['timezone']
+    user = session['user']
+
+    # Convert time to UTC
+    local_tz = pytz.timezone(timezone)
+    local_time = local_tz.localize(datetime.fromisoformat(schedule_time))
+    utc_time = local_time.astimezone(pytz.utc)
+
+    # Generate a unique job ID
+    job_id = str(uuid.uuid4())
+
+    # Schedule job
+    scheduler.add_job(
+        func=add_from_file,
+        trigger=DateTrigger(run_date=utc_time),
+        args=[user],
+        id=job_id
+    )
+
+    # Save job info
+    scheduled_jobs.append({
+        'id': job_id,
+        'user': user,
+        'time': schedule_time,
+        'timezone': timezone
+    })
+
+    return {'message': 'Monitoring scheduled successfully!'}
+
+@app.route('/cancel_job/<job_id>', methods=['POST'])
+def cancel_job(job_id):
+    scheduler.remove_job(job_id)
+    global scheduled_jobs
+    scheduled_jobs = [job for job in scheduled_jobs if job['id'] != job_id]
+    return {'message': 'Job canceled successfully!'}
 
 @app.route('/', methods=['GET'])
 def home():
@@ -38,8 +89,12 @@ def main():
     # Extract the required parts for the forms
     all_domains = [item['domain'] for item in data]  # List of domain names
     latest_results = data[:6]  # Last 6 results
+    # Pass scheduled jobs for the current user
+    user_jobs = [job for job in scheduled_jobs if job['user'] == session['user']]
+    utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]
 
-    return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results)
+    return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
+                            utc_timezones=utc_timezones)
 
 @app.route('/logoff', methods=['GET'])
 def logoff():

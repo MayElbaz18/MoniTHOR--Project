@@ -99,6 +99,22 @@ form input[type="file"] {
 
 form button[type="submit"]:hover {
     background: #d9d6cd; /* Slightly darker blue-grey */
+    color: #060501;
+}
+
+.cancelJob {
+    font-size: medium;
+    border: 1px solid #f0f403;
+    border-radius: 5px;
+    font-weight: bold;
+    color: aquamarine;
+    background-color: black;
+    padding: 8px;
+}
+
+.cancelJob:hover {
+    background: #d9d6cd; /* Slightly darker blue-grey */
+    color: #060501;
 }
 
 label {
