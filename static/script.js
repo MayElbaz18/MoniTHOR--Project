@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(data);
 
                 if (data.includes("Login Successful")) {
-                    alert("Logged In Successfully");
+                    console.log("Logged In Successfully");
                     window.location.href = '/dashboard'; // Redirect after successful login
                 } else {
                     alert('Invalid username or password!');
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response = await fetch(`/single_domain/${domainInput}`);
                     const data = await response.text();
                     console.log(data);
-                    alert('Domain is monitored');
+                    console.log('Domain is monitored');
                 } catch (error) {
                     console.error('Error adding domain:', error);
                 }
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response2 = await fetch(`single_check/${username}`);
                     const checkData = await response2.text();
                     console.log(checkData);
-                    alert('Check is finished');
+                    console.log('Check is finished');
                     setTimeout(() => {
                         location.reload();
                     }, 4000); // 4000 milliseconds = 4 seconds
@@ -102,8 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                     const response1 = await fetch(`bulk_upload/${fileName}`);
                     const uploadData = await response1.text();
-                    console.log(uploadData);
-                    alert('Bulk upload');
+                    if (uploadData=="File Not Exist")
+                        {alert(uploadData);}
+                    else 
+                        {console.log('Bulk upload');}
                 } catch (error) {
                     console.error('Error adding domain:', error);
                 }
@@ -113,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response2 = await fetch(`check/${username}`);
                     const checkData = await response2.text();
                     console.log(checkData);
-                    alert('Check is finished');
+                    console.log('Check is finished');
                     setTimeout(() => {
                         location.reload();
                     }, 3000); // 3000 milliseconds = 3 seconds

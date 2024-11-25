@@ -4,7 +4,7 @@ import re
 from pythonBE.logs import logger
 
 
-def add_domain (userName,domain,domainsFile=False) :
+def add_domain (userName,domain) :
     logger.debug(f'Function is invoked {userName}, {domain}')
     successMessage = { 'message' : "Domain successfully added"}
     failureMessageExist = { 'message' : "Domain already exist in file"}
@@ -15,35 +15,32 @@ def add_domain (userName,domain,domainsFile=False) :
     if not is_valid_domain(domain):
         return failureMessageNotValid
 
-    if domainsFile==True:
-        userDoaminFile=f'./userdata/{userName}_domains.json'
-    else:
-        userDoaminFile=f'./userdata/{userName}_domain.json'
     
-    if not os.path.exists(userDoaminFile) or domainsFile==False:
-        with open(userDoaminFile, 'w') as f:
+    userDomainsFile=f'./userdata/{userName}_domains.json'
+    
+    
+    
+    if not os.path.exists(userDomainsFile) :
+         with open(userDomainsFile, 'w') as f:
             f.write("{}")
 
 
 
-    with open(f'{userDoaminFile}', 'r') as f:
+    with open(f'{userDomainsFile}', 'r') as f:
         current_info = json.load(f)
         currentListOfDomains=list(current_info)
         
        
-    for d in currentListOfDomains :        
+    for d in currentListOfDomains :             
         if d['domain'] == domain:
             return failureMessageExist
 
     newDomain ={'domain':domain,'status':'unknown','ssl_expiration':'unknown','ssl_issuer':'unknown' }
     
-    currentListOfDomains.append(newDomain)        
+    currentListOfDomains.append(newDomain)             
+    
 
-    if domainsFile==False:
-            print(f"{userName},{domain},{domainsFile}")
-            add_domain(userName,domain,True)
-
-    with open(userDoaminFile, 'w') as f:
+    with open(userDomainsFile, 'w') as f:        
         json.dump(currentListOfDomains, f, indent=4)        
       
         return successMessage
@@ -89,15 +86,22 @@ def remove_domain (userName,domain) :
 def add_bulk(userName,fileName):
     fileName=fileName.replace('"','')
     print (fileName , userName)
+
+    
+    if not os.path.exists(fileName):
+        return "File Not Exist"
+    
     try:
         with open(fileName, 'r') as infile:
             for line in infile:
-                add_domain(userName,line.strip(),True)
+                add_domain(userName,line.strip())
     
-    except Exception as e:
+    except Exception as e:        
         return (str(e))
      
     return "Bulk upload finished"
+
+
 
 
 

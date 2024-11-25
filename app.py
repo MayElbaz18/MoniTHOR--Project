@@ -188,7 +188,7 @@ def single_domain(domainName):
     # Get the domain name from the form data
     logger.debug(f'Domain name is {domainName}')
         
-    return domain.add_domain(session['user'],domainName,False)   
+    return domain.add_domain(session['user'],domainName)   
 
 # usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
 # using  %5C instaed of  "\"  
@@ -218,7 +218,7 @@ def search():
 def check_livness(username):    
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>") 
-    return check_liveness.livness_check (username,True)
+    return check_liveness.livness_check (username)
 
 
 
@@ -227,7 +227,7 @@ def check_livness(username):
 def single_check_livness(username):    
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>") 
-    return check_liveness.livness_check (username,False)
+    return check_liveness.livness_check (username)
 
 
 if __name__ == '__main__':

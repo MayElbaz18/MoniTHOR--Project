@@ -10,15 +10,13 @@ import os
 # function will read Domain/Domains file and will update relevant fields in file 
 # 'domain','status_code',"ssl_expiration","ssl_Issuer" 
 
-def livness_check (username,all=False):
+def livness_check (username):
     # Measure start time
     start_time = time.time()    
     urls_queue = Queue()
     analyzed_urls_queue = Queue()
-    if all == True :
-        fileToCheck=f'./userdata/{username}_domains.json'
-    else:
-        fileToCheck=f'./userdata/{username}_domain.json'
+    
+    fileToCheck=f'./userdata/{username}_domains.json'
     
     if not os.path.exists(fileToCheck):
         return "Domains file is not exist"
