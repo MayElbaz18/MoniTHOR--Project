@@ -21,10 +21,10 @@ scheduled_jobs = [] # Store scheduled jobs
 
 @app.route('/schedule_bulk_monitoring', methods=['POST'])
 def schedule_bulk_monitoring():
-    # Get form data
+    # Get form data    
     schedule_time = request.form['schedule_time']
     timezone = request.form['timezone']
-    user = session['user']
+    user = session['user']    
 
     # Convert time to UTC
     local_tz = pytz.timezone(timezone)
@@ -36,19 +36,19 @@ def schedule_bulk_monitoring():
 
     # Schedule job
     scheduler.add_job(
-        func=add_from_file,
+        Checkjob,
         trigger=DateTrigger(run_date=utc_time),
         args=[user],
         id=job_id
     )
-
+    #scheduler.add_job(Checkjob, 'interval', seconds=30 , args=[user])
     # Save job info
     scheduled_jobs.append({
         'id': job_id,
         'user': user,
         'time': schedule_time,
-        'timezone': timezone
-    })
+        'timezone': timezone        
+    })    
 
     return {'message': 'Monitoring scheduled successfully!'}
 
@@ -229,6 +229,9 @@ def single_check_livness(username):
         return render_template_string("<h1>No User is logged in </h1>") 
     return check_liveness.livness_check (username)
 
+
+def Checkjob(username):    
+    check_liveness.livness_check (username)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
