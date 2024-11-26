@@ -21,10 +21,11 @@ scheduled_jobs = [] # Store scheduled jobs
 
 @app.route('/schedule_bulk_monitoring', methods=['POST'])
 def schedule_bulk_monitoring():
-    # Get form data
+    # Get form data    
     schedule_time = request.form['schedule_time']
     timezone = request.form['timezone']
-    user = session['user']
+    interval = request.form.get('interval')
+    user = session['user']    
 
     # Convert time to UTC
     local_tz = pytz.timezone(timezone)
@@ -34,21 +35,33 @@ def schedule_bulk_monitoring():
     # Generate a unique job ID
     job_id = str(uuid.uuid4())
 
-    # Schedule job
-    scheduler.add_job(
-        func=add_from_file,
-        trigger=DateTrigger(run_date=utc_time),
-        args=[user],
-        id=job_id
-    )
-
+    if interval:
+        # Schedule a recurring job
+        scheduler.add_job(
+            Checkjob,
+            trigger='interval',
+            hours=int(interval),
+            args=[user],
+            id=job_id,
+            start_date=utc_time
+        )
+    else:
+        # Schedule a one-time job
+        scheduler.add_job(
+            Checkjob,
+            trigger=DateTrigger(run_date=utc_time),
+            args=[user],
+            id=job_id
+        )
+    #scheduler.add_job(Checkjob, 'interval', seconds=30 , args=[user])
     # Save job info
     scheduled_jobs.append({
         'id': job_id,
         'user': user,
         'time': schedule_time,
-        'timezone': timezone
-    })
+        'timezone': timezone,
+        'interval': interval        
+    })    
 
     return {'message': 'Monitoring scheduled successfully!'}
 
@@ -188,7 +201,7 @@ def single_domain(domainName):
     # Get the domain name from the form data
     logger.debug(f'Domain name is {domainName}')
         
-    return domain.add_domain(session['user'],domainName,False)   
+    return domain.add_domain(session['user'],domainName)   
 
 # usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
 # using  %5C instaed of  "\"  
@@ -218,7 +231,7 @@ def search():
 def check_livness(username):    
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>") 
-    return check_liveness.livness_check (username,True)
+    return check_liveness.livness_check (username)
 
 
 
@@ -227,8 +240,11 @@ def check_livness(username):
 def single_check_livness(username):    
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>") 
-    return check_liveness.livness_check (username,False)
+    return check_liveness.livness_check (username)
 
+
+def Checkjob(username):    
+    check_liveness.livness_check (username)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
