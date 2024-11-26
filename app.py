@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template_string, render_template
+from flask import Flask, session, render_template_string, render_template,redirect
 from pythonBE import user , check_liveness ,domain
 from pythonBE.logs import logger
 import json
@@ -245,6 +245,8 @@ def single_check_livness(username):
 
 def Checkjob(username):    
     check_liveness.livness_check (username)
+    redirect('\dashboard')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
+    

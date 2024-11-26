@@ -35,14 +35,16 @@ def livness_check (username):
         while not urls_queue.empty():
             url = urls_queue.get()
             
-            certInfo=check_certificate.certificate_check(url) 
             
-            print(certInfo)
-            result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":certInfo[0],"ssl_Issuer": certInfo[1]}  # Default to FAILED
+            
+            #print(certInfo)
+            result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":'FAILED',"ssl_Issuer": 'FAILED' }  # Default to FAILED
             try:
-                response = requests.get(f'http://{url}', timeout=1)
-                if response.status_code == 200:
-                    result['status_code'] = 'OK'
+                response = requests.get(f'http://{url}', timeout=10)
+                print(url)
+                if response.status_code == 200:                    
+                    certInfo=check_certificate.certificate_check(url) 
+                    result = {'domain': url, 'status_code': 'OK' ,"ssl_expiration":certInfo[0],"ssl_Issuer": certInfo[1][:30]}  # Default to FAILED
             except requests.exceptions.RequestException:
                 result['status_code'] = 'FAILED'
             finally:
@@ -65,9 +67,9 @@ def livness_check (username):
         print("Report generated in report.json")
 
     # Run URL checks in parallel
-    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as liveness_threads_pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=50) as liveness_threads_pool:
         # Submit URL check tasks
-        futures = [liveness_threads_pool.submit(check_url) for _ in range(20)]
+        futures = [liveness_threads_pool.submit(check_url) for _ in range(100)]
         # Generate report after tasks complete
         liveness_threads_pool.submit(generate_report)
 
