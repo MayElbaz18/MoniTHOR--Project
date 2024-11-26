@@ -180,12 +180,13 @@ def check_livness(username):
     if session['user']=="" :
         return render_template_string("<h1>No User is logged in </h1>") 
     check_liveness.livness_check (username)
+    return "check Is finished"
     
 
 
 def Checkjob(username):    
     check_liveness.livness_check (username)
-    redirect('\dashboard')
+    return redirect('/dashboard')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
