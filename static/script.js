@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 errorMessage.style.display = "none"; // Hide the error message
                 try {
-                    const response = await fetch(`/single_domain/${domainInput}`);
+                    const response = await fetch(`/add_domain/${domainInput}`);
                     const data = await response.text();
                     console.log(data);
                     console.log('Domain is monitored');
@@ -62,9 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 try {
-                    const response2 = await fetch(`single_check/${username}`);
+                    console.log("Trying")
+                    const response2 = await fetch(`check/${username}`);
                     const checkData = await response2.text();
-                    console.log(checkData);
+                    
                     console.log('Check is finished');
                     setTimeout(() => {
                         location.reload();
