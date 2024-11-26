@@ -184,20 +184,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // JavaScript Function for Form Submission
+    // Schedule-monitoring Form Submission
     document.getElementById('schedule-monitoring-form').addEventListener('submit', async function (event) {
         event.preventDefault(); // Prevent default form submission behavior
-
+    
         // Gather form data
         const formData = new FormData(this);
-
+    
         try {
             // Send a POST request with form data
             const response = await fetch('/schedule_bulk_monitoring', {
                 method: 'POST',
                 body: formData, // Use FormData directly for form-encoded submission
             });
-
+    
             if (response.ok) {
                 const data = await response.json(); // Parse the JSON response
                 alert(data.message); // Show the success message
@@ -210,4 +210,5 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An unexpected error occurred. Please try again later.');
         }
     });
+    
 

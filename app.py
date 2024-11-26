@@ -24,6 +24,7 @@ def schedule_bulk_monitoring():
     # Get form data    
     schedule_time = request.form['schedule_time']
     timezone = request.form['timezone']
+    interval = request.form.get('interval')
     user = session['user']    
 
     # Convert time to UTC
@@ -34,20 +35,32 @@ def schedule_bulk_monitoring():
     # Generate a unique job ID
     job_id = str(uuid.uuid4())
 
-    # Schedule job
-    scheduler.add_job(
-        Checkjob,
-        trigger=DateTrigger(run_date=utc_time),
-        args=[user],
-        id=job_id
-    )
+    if interval:
+        # Schedule a recurring job
+        scheduler.add_job(
+            Checkjob,
+            trigger='interval',
+            hours=int(interval),
+            args=[user],
+            id=job_id,
+            start_date=utc_time
+        )
+    else:
+        # Schedule a one-time job
+        scheduler.add_job(
+            Checkjob,
+            trigger=DateTrigger(run_date=utc_time),
+            args=[user],
+            id=job_id
+        )
     #scheduler.add_job(Checkjob, 'interval', seconds=30 , args=[user])
     # Save job info
     scheduled_jobs.append({
         'id': job_id,
         'user': user,
         'time': schedule_time,
-        'timezone': timezone        
+        'timezone': timezone,
+        'interval': interval        
     })    
 
     return {'message': 'Monitoring scheduled successfully!'}
