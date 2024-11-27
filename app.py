@@ -72,6 +72,7 @@ def login():
     print (username)
     if "Login Successful"== status['message']:
         session['user']=username        
+        session['lastRun']=['new','0']
         return "Login Successful"    
     return render_template('login.html')
 
