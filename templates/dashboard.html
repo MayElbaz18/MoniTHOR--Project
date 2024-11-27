@@ -36,7 +36,14 @@
     <ul id="scheduled-jobs">
     {% for job in scheduled_jobs %}
      <li class="list-group-item" style="width: 50%; margin-left: 23%;">
-        Monitoring scheduled for: {{ job['time'] }} ({{ job['timezone'] }}) - Every {{ job['interval'] }} Hour/s
+        Monitoring scheduled for: {{ job['time'] }} ({{ job['timezone'] }}) -
+        {% if job['interval'] == '' %}
+        One-time job
+        {% elif job['interval'] == 1 %}
+        Every 1 Hour
+        {% else %}
+        Every {{ job['interval'] }} Hours
+        {% endif %}
         <button class="cancelJob" type="button" onclick="cancelJob('{{ job['id'] }}')">Cancel</button>
      </li>
     {% endfor %}
