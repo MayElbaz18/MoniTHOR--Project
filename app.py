@@ -153,7 +153,13 @@ def remove_domain(domainName):
         return "No User is logged in"
     # Get the domain name from the form data
     logger.debug(f'Domain name is {domainName}')    
-    return domain.remove_domain(session['user'],domainName)   
+    response= domain.remove_domain(session['user'],domainName)   
+
+    if  response['message']   ==  "Domain successfully removed":       
+        session['lastRun']= (session['lastRun'][0], str(int(session['lastRun'][1])-1))        
+        return response
+    
+    
 
  
 

@@ -146,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove unnecessary parts (e.g., "Remove" from text if it's being included)
         domainName = domainName.replace("Remove", "").trim();
         console.log(`Cleaned domain name: ${domainName}`);
+        
     
         fetch(`/remove_domain/${encodeURIComponent(domainName)}`, {
             method: 'POST'

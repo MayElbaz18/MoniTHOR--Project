@@ -85,5 +85,5 @@ def livness_check (username):
     print(f"URL liveness check complete in {elapsed_time:.2f} seconds.")
     with open(f'./userdata/{username}_domains.json', 'r') as f:
         results = json.load(f)
-    return start_date_time, f"  ,  {numberOfDomains}"
+    return start_date_time,str(numberOfDomains)
 
