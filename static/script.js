@@ -64,9 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     console.log("Trying")
                     const response2 = await fetch(`check/${username}`);
-                    const checkData = await response2.text();
-                    
-                    console.log('Check is finished');
+                    const checkResponse = await response2.text();                    
+                    console.log(checkResponse);
                     setTimeout(() => {
                         location.reload();
                     }, 4000); // 4000 milliseconds = 4 seconds
@@ -114,9 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
                 try {
                     const response2 = await fetch(`check/${username}`);
-                    const checkData = await response2.text();
-                    console.log(checkData);
-                    console.log('Check is finished');
+                    const checkResponse = await response2.text();
+                    console.log(checkResponse);                    
                     setTimeout(() => {
                         location.reload();
                     }, 3000); // 3000 milliseconds = 3 seconds

@@ -71,8 +71,7 @@ def login():
     print (username)
     if "Login Successful"== status['message']:
         session['user']=username
-        return "Login Successful"
-    session['message']=user.login_user(username,password)  
+        return "Login Successful"    
     return render_template('login.html')
 
 # Route for Dashboard  
@@ -90,20 +89,17 @@ def main():
     latest_results = data[:6]  # Last 6 results
     # Pass scheduled jobs for the current user
     user_jobs = [job for job in scheduled_jobs if job['user'] == session['user']]
-    utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]
-
+    utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]    
     return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
-                            utc_timezones=utc_timezones)
+                            utc_timezones=utc_timezones,last_run=session['lastRun'][0] ,number_of_domains=session['lastRun'][1]  )
 
 # Route for Logoff
 @app.route('/logoff', methods=['GET'])
 def logoff():
     user=session['user']
     if user=="":
-        return  render_template_string("<h1>No user is logged in.</h1>")
-    session['message']=f"User {session['user']} is logged off now."
-    session['user']=""
-    print (session['message'])
+        return  ("No user is logged in")    
+    session['user']=""    
     return  render_template('login.html')
 
 
@@ -119,8 +115,7 @@ def register():
     status = user.register_user(username, password1, password2)
 
     # Validate input parameters
-    if password1 != password2:
-        session['message'] = {'message': 'Passwords do not match'} 
+    if password1 != password2:        
         return "Passwords do not match"
     if status['message'] == 'Username already taken':
         return "Username already taken"
@@ -144,7 +139,7 @@ def register():
 def add_new_domain(domainName):
     logger.debug(f'Route being code {domainName}')
     if session['user']=="" :
-        return render_template_string("<h1>No User is logged in </h1>") 
+        return "No User is logged in" 
     # Get the domain name from the form data
     logger.debug(f'Domain name is {domainName}')
         
@@ -155,7 +150,7 @@ def add_new_domain(domainName):
 def remove_domain(domainName):
     logger.debug(f'Route being code {domainName}')
     if session['user']=="" :
-        return render_template_string("<h1>No User is logged in </h1>") 
+        return "No User is logged in"
     # Get the domain name from the form data
     logger.debug(f'Domain name is {domainName}')    
     return domain.remove_domain(session['user'],domainName)   
@@ -169,7 +164,7 @@ def remove_domain(domainName):
 @app.route('/bulk_upload/<filename>')
 def add_from_file(filename):    
     if session['user']=="" :
-        return render_template_string("<h1>No User is logged in </h1>")           
+        return "No User is logged in"           
     print (filename)
     return domain.add_bulk(session['user'],filename)
     
@@ -178,9 +173,9 @@ def add_from_file(filename):
 @app.route('/check/<username>')
 def check_livness(username):    
     if session['user']=="" :
-        return render_template_string("<h1>No User is logged in </h1>") 
-    check_liveness.livness_check (username)
-    return "check Is finished"
+        return "No User is logged in" 
+    session["lastRun"]=check_liveness.livness_check (username)    
+    return session["lastRun"]
     
 
 

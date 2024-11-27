@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 import json
 import concurrent.futures
@@ -12,6 +13,8 @@ import os
 
 def livness_check (username):
     # Measure start time
+    now = datetime.now() # Format the date and time in a friendly way 
+    start_date_time = now.strftime("%H:%M  %d/%m/%y ")
     start_time = time.time()    
     urls_queue = Queue()
     analyzed_urls_queue = Queue()
@@ -27,8 +30,8 @@ def livness_check (username):
     for d in currentListOfDomains :        
         urls_queue.put(d['domain']) 
          
-    
-    print(f"Total URLs to check: {urls_queue.qsize()}")
+    numberOfDomains=urls_queue.qsize()
+    print(f"Total URLs to check: {numberOfDomains}")
 
     # Define the URL checking function with a timeout and result storage
     def check_url():
@@ -82,8 +85,5 @@ def livness_check (username):
     print(f"URL liveness check complete in {elapsed_time:.2f} seconds.")
     with open(f'./userdata/{username}_domains.json', 'r') as f:
         results = json.load(f)
-    return results
-
-
-
+    return start_date_time, f"  ,  {numberOfDomains}"
 
