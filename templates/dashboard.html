@@ -24,7 +24,7 @@
           {% endfor %}
         </select>
         <label for="interval">Select Interval:</label>
-        <select id="interval" name="interval" required>
+        <select id="interval" name="interval" >
         <option value="">None (One-time job)</option>
         {% for i in range(1, 13) %}
         <option value="{{ i }}">{{ i }} Hour{% if i > 1 %}s{% endif %}</option>
@@ -42,7 +42,7 @@
     {% endfor %}
     </ul>
     
-    <h3>Results:</h3>
+    <h3>Results:  {{ last_run}}   {{number_of_domains}} Domains</h3>
     <form id="result-form" method="GET">
         <div>
             <table id="resultsTable">

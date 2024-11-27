@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 import json
 import concurrent.futures
@@ -12,6 +13,8 @@ import os
 
 def livness_check (username):
     # Measure start time
+    now = datetime.now() # Format the date and time in a friendly way 
+    start_date_time = now.strftime("%H:%M  %d/%m/%y ")
     start_time = time.time()    
     urls_queue = Queue()
     analyzed_urls_queue = Queue()
@@ -27,22 +30,24 @@ def livness_check (username):
     for d in currentListOfDomains :        
         urls_queue.put(d['domain']) 
          
-    
-    print(f"Total URLs to check: {urls_queue.qsize()}")
+    numberOfDomains=urls_queue.qsize()
+    print(f"Total URLs to check: {numberOfDomains}")
 
     # Define the URL checking function with a timeout and result storage
     def check_url():
         while not urls_queue.empty():
             url = urls_queue.get()
             
-            certInfo=check_certificate.certificate_check(url) 
             
-            print(certInfo)
-            result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":certInfo[0],"ssl_Issuer": certInfo[1]}  # Default to FAILED
+            
+            #print(certInfo)
+            result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":'FAILED',"ssl_Issuer": 'FAILED' }  # Default to FAILED
             try:
-                response = requests.get(f'http://{url}', timeout=1)
-                if response.status_code == 200:
-                    result['status_code'] = 'OK'
+                response = requests.get(f'http://{url}', timeout=10)
+                print(url)
+                if response.status_code == 200:                    
+                    certInfo=check_certificate.certificate_check(url) 
+                    result = {'domain': url, 'status_code': 'OK' ,"ssl_expiration":certInfo[0],"ssl_Issuer": certInfo[1][:30]}  # Default to FAILED
             except requests.exceptions.RequestException:
                 result['status_code'] = 'FAILED'
             finally:
@@ -65,9 +70,9 @@ def livness_check (username):
         print("Report generated in report.json")
 
     # Run URL checks in parallel
-    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as liveness_threads_pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=100) as liveness_threads_pool:
         # Submit URL check tasks
-        futures = [liveness_threads_pool.submit(check_url) for _ in range(20)]
+        futures = [liveness_threads_pool.submit(check_url) for _ in range(100)]
         # Generate report after tasks complete
         liveness_threads_pool.submit(generate_report)
 
@@ -80,8 +85,5 @@ def livness_check (username):
     print(f"URL liveness check complete in {elapsed_time:.2f} seconds.")
     with open(f'./userdata/{username}_domains.json', 'r') as f:
         results = json.load(f)
-    return results
-
-
-
+    return start_date_time,str(numberOfDomains)
 

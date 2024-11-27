@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 errorMessage.style.display = "none"; // Hide the error message
                 try {
-                    const response = await fetch(`/single_domain/${domainInput}`);
+                    const response = await fetch(`/add_domain/${domainInput}`);
                     const data = await response.text();
                     console.log(data);
                     console.log('Domain is monitored');
@@ -62,13 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 try {
-                    const response2 = await fetch(`single_check/${username}`);
-                    const checkData = await response2.text();
-                    console.log(checkData);
-                    console.log('Check is finished');
+                    console.log("Trying")
+                    const response2 = await fetch(`check/${username}`);
+                    const checkResponse = await response2.text();                    
+                    console.log(checkResponse);
+                    alert('Check Is Finished') 
                     setTimeout(() => {
                         location.reload();
-                    }, 4000); // 4000 milliseconds = 4 seconds
+                    }, 2000); // 2000 milliseconds = 2 seconds
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
@@ -113,12 +114,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
                 try {
                     const response2 = await fetch(`check/${username}`);
-                    const checkData = await response2.text();
-                    console.log(checkData);
-                    console.log('Check is finished');
+                    const checkResponse = await response2.text();
+                    console.log(checkResponse);
+                    alert('Check Is Finished')                    
                     setTimeout(() => {
                         location.reload();
-                    }, 3000); // 3000 milliseconds = 3 seconds
+                    }, 2000); // 2000 milliseconds = 2 seconds
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
@@ -147,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove unnecessary parts (e.g., "Remove" from text if it's being included)
         domainName = domainName.replace("Remove", "").trim();
         console.log(`Cleaned domain name: ${domainName}`);
+        
     
         fetch(`/remove_domain/${encodeURIComponent(domainName)}`, {
             method: 'POST'
