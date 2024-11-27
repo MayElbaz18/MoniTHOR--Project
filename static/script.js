@@ -66,9 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const response2 = await fetch(`check/${username}`);
                     const checkResponse = await response2.text();                    
                     console.log(checkResponse);
+                    alert('Check Is Finished') 
                     setTimeout(() => {
                         location.reload();
-                    }, 4000); // 4000 milliseconds = 4 seconds
+                    }, 2000); // 2000 milliseconds = 2 seconds
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
@@ -114,10 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     const response2 = await fetch(`check/${username}`);
                     const checkResponse = await response2.text();
-                    console.log(checkResponse);                    
+                    console.log(checkResponse);
+                    alert('Check Is Finished')                    
                     setTimeout(() => {
                         location.reload();
-                    }, 3000); // 3000 milliseconds = 3 seconds
+                    }, 2000); // 2000 milliseconds = 2 seconds
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
