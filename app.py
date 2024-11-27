@@ -13,6 +13,7 @@ from datetime import datetime
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
 app.secret_key = 'NOT_TO_BAD_SECRET_KEY'
 
+
 # Initialize scheduler
 scheduler = BackgroundScheduler()
 scheduler.start()
@@ -70,7 +71,7 @@ def login():
     status = user.login_user(username,password) 
     print (username)
     if "Login Successful"== status['message']:
-        session['user']=username
+        session['user']=username        
         return "Login Successful"    
     return render_template('login.html')
 
@@ -100,6 +101,7 @@ def logoff():
     if user=="":
         return  ("No user is logged in")    
     session['user']=""    
+    session['lastRun']=['new','0']
     return  render_template('login.html')
 
 
