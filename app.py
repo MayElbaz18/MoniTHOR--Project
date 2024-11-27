@@ -11,7 +11,7 @@ from datetime import datetime
 
 
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
-app.secret_key = 'NOT_TO_BAD_SECRET_KEY'
+app.secret_key = ''
 
 
 # Initialize scheduler
