@@ -1,10 +1,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     text-align: center !important; /* All Text In The Center */
-    background-image: url('https://images.squarespace-cdn.com/content/v1/56ca3bbeb654f92cd6eaa060/1583181671123-3ARP8GLDZMIZPWK3IU11/INternet+Security+privacy.png?format=1500w');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
+    background-color:#07b1cd !important;
 }
 
 h1, h2, h3 {
@@ -24,7 +21,7 @@ h1 {
     border: 1px solid rgba(0, 0, 0, 0.1); 
 }
 
-h2 {
+h3 {
     padding: 10px;
     background-color: #f1c42f;
     width: 40%;
@@ -32,14 +29,24 @@ h2 {
     border-radius: 8px;
 }
 
-#Dashboard {
+h2 {
+    padding: 20px;
+    background-color: #c4d4d7;
+    width: 70%;
+    border-radius: 30px;
+    margin-left: 15%;
+}
+
+#Dashboard ,#Results {
     padding: 10px;
-    background: linear-gradient(145deg, #3ade60, #e5b02b);
-    color: #060501;
+    border: 1px solid #c4d4d7;
+    background: linear-gradient(145deg, #40e56b, #1f5267);
+    color: #c4d4d7;
     width: 45%;
     margin-left: 28%;
     border-radius: 8px;
 }
+
 
 h3 {
     padding: 10px;
@@ -56,21 +63,44 @@ h3 {
     border-radius: 8px;
  }
 
+ #forms-container {
+    display: flex;
+    flex-direction: column; /* Stack rows vertically */
+    width: 100%;
+    align-items: center; /* Center the forms horizontally */
+    margin: 0 auto;
+}
+
+/* Top row with single and bulk forms side by side */
+#top-row {
+    display: flex;
+    justify-content: space-around;
+    width: 90%;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+/* Bottom row for schedule form */
+#bottom-row {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+/* Form styles */
 form {
-    background: linear-gradient(145deg, #E6CEA5, #C4B07F); /* Subtle gradient for 3D feel */
-    padding: 50px;
-    margin: 20px 0;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), /* Deep shadow for depth */
-    -10px -10px 20px rgba(255, 255, 255, 0.7); /* Highlight for light source */
-    border-radius: 8px; /* Smooth corners */
-    position: relative;
-    width: 70%;
-    margin-left: 250px;
-    border: 1px solid rgba(0, 0, 0, 0.1); 
+    background: linear-gradient(145deg,#b37c57, #3c455c);
+    padding: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2),
+                -10px -10px 20px rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: 45%; /* Adjust form width */
 }
 
 form input[type="text"], form input[type="password"], form input[type="submit"]  {
-    width: 20%;
+    width: 40%;
     padding: 10px;
     margin: 30px 0;
     border: 1px solid #f0f403; /* Light grey border */
@@ -102,6 +132,33 @@ form button[type="submit"]:hover {
     color: #060501;
 }
 
+#login-form ,#register-form {
+    margin-left: 15%;
+    width: 70%;
+}
+
+#login-form input ,#register-form input {
+    padding: 8px;
+    width: 20%;
+}
+
+.results_domain {
+    margin-left: 5%
+}
+
+#result-form {
+    width: 55% !important;
+}
+
+#domains-form {
+    margin-left: 10px;
+}
+
+#monitoring-form {
+   width: 95% !important;
+   margin-left: 10%;
+}
+
 .cancelJob {
     font-size: medium;
     border: 1px solid #f0f403;
@@ -123,7 +180,7 @@ label {
     border-radius: 5px;
     font-weight: bold;
     color: aquamarine;
-    background-color: black;
+    background-color: rgb(99, 96, 96);
     padding: 8px;
 }
 
@@ -131,12 +188,12 @@ label {
 .list-group-item {
     width: 80%;
     margin-left: 10%;
-    background-color: #f1deaa !important;
+    background-color: #c4d4d7 !important;
     text-decoration: underline;
     margin-bottom: 10px;
     padding: 15px;
     border: 1px solid #ddd;
-    border-radius: 5px; 
+    border-radius: 10px !important; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -146,20 +203,26 @@ label {
 
 /*-----Table-----*/
 table {
-    width: 70%;
+    width: 85%;
     border-collapse: collapse;
     margin: 20px auto;
+    background-color: #21a68c;
   }
   table, th, td {
-    border: 1px solid black;
+    border: 1px solid #dde2e3;
   }
+
   th, td {
     padding: 10px;
     text-align: left;
+    color: #dde2e3;
   }
+
   th {
-    background-color: #d4e554;
+    background-color: #b5f265;
+    color: #000608;
   }
+
   caption {
     font-size: 1.5em;
     margin: 10px 0;

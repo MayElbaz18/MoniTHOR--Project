@@ -68,8 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log(checkResponse);
                     alert('Check Is Finished') 
                     setTimeout(() => {
-                        location.reload();
-                    }, 2000); // 2000 milliseconds = 2 seconds
+                        window.location.href = '/results';
+                    }, 1000); // 1000 milliseconds = 1 seconds
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }
@@ -118,8 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log(checkResponse);
                     alert('Check Is Finished')                    
                     setTimeout(() => {
-                        location.reload();
-                    }, 2000); // 2000 milliseconds = 2 seconds
+                        window.location.href = '/results';
+                    }, 1000); // 1000 milliseconds = 1 seconds
                 } catch (error) {
                     console.error('Error runing check:', error);
                 }

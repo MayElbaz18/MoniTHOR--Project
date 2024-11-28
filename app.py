@@ -11,7 +11,7 @@ from datetime import datetime
 
 
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
-app.secret_key = ''
+app.secret_key = 'NOT_TO_BAD_SECRET_KEY'
 
 
 # Initialize scheduler
@@ -94,6 +94,21 @@ def main():
     utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]    
     return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
                             utc_timezones=utc_timezones,last_run=session['lastRun'][0] ,number_of_domains=session['lastRun'][1]  )
+
+# Route for user results
+@app.route('/results', methods=['GET'])
+def results():
+    user_file = f'./userdata/{session['user']}_domains.json'
+    if os.path.exists(user_file):
+     with open(user_file, 'r') as f:
+          data = json.load(f)
+    else:
+        data = []      
+
+    # Extract the required parts for the forms
+    all_domains = [item['domain'] for item in data]  # List of domain names
+    latest_results = data[:6]  # Last 6 results
+    return render_template('results.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results,last_run=session['lastRun'][0] ,number_of_domains=session['lastRun'][1] )
 
 # Route for Logoff
 @app.route('/logoff', methods=['GET'])
