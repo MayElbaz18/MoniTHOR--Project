@@ -1,7 +1,10 @@
-from flask import Flask, session, render_template_string, render_template,redirect,request
+from flask import Flask, session, render_template,redirect,request, url_for
+import requests
+from oauthlib.oauth2 import WebApplicationClient
 from pythonBE import user , check_liveness ,domain
 from pythonBE.logs import logger
 import json
+from dotenv import load_dotenv
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.date import DateTrigger
@@ -9,10 +12,21 @@ import pytz
 import uuid
 from datetime import datetime 
 
+# Load environment variables from .env file
+load_dotenv()
+
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
-app.secret_key = ''
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
+# Google OAuth2 details
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+GOOGLE_DISCOVERY_URL = os.getenv('GOOGLE_DISCOVERY_URL')
+
+# Initialize OAuth2 client
+client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 # Initialize scheduler
 scheduler = BackgroundScheduler()
@@ -57,6 +71,76 @@ def cancel_job(job_id):
     scheduled_jobs = [job for job in scheduled_jobs if job['id'] != job_id]
     return {'message': 'Job canceled successfully!'}
 
+#Route for Google Authentication
+@app.route('/google-login')
+def google_login():
+    google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
+    authorization_endpoint = google_provider_cfg['authorization_endpoint']
+
+    # Generate the authorization URL
+    request_uri = client.prepare_request_uri(
+        authorization_endpoint,
+        redirect_uri=url_for('google_callback', _external=True),
+        scope=["openid", "email", "profile"],
+    )
+    return redirect(request_uri)
+
+# Route For Google Callback
+@app.route('/callback')
+def google_callback():
+    # Get the authorization code Google sent back
+    code = request.args.get("code")
+
+    google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
+    token_endpoint = google_provider_cfg["token_endpoint"]
+
+    # Prepare token request
+    token_url, headers, body = client.prepare_token_request(
+        token_endpoint,
+        authorization_response=request.url,
+        redirect_url=url_for('google_callback', _external=True),
+        code=code
+    )
+    token_response = requests.post(
+        token_url,
+        headers=headers,
+        data=body,
+        auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
+    )
+
+    # Parse tokens
+    client.parse_request_body_response(json.dumps(token_response.json()))
+
+    # Get user info
+    userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
+    uri, headers, body = client.add_token(userinfo_endpoint)
+    userinfo_response = requests.get(uri, headers=headers, data=body)
+
+    # Extract user info
+    userinfo = userinfo_response.json()
+    if userinfo.get("email_verified"):
+        google_user = {
+            "username": userinfo["email"]
+        }
+        logger.info(f'{userinfo["email"]} Login With Google Account')
+        # Save the user to users.json if not already saved
+        with open('users.json', 'r') as f:
+          current_info = json.load(f)
+          currentListOfUsers=list(current_info)
+
+        # Check if the user already exists
+        if not any(user['username'] == google_user["username"] for user in currentListOfUsers):
+            currentListOfUsers.append({"username": google_user["username"]})
+            with open('users.json', 'w') as f:
+                json.dump(currentListOfUsers, f, indent=4)
+
+        # Log the user in and redirect to the dashboard
+        session['user'] = google_user["username"]
+        return redirect(url_for("main"))
+    else:
+        return "User email not available or not verified by Google."
+    
+
 # Route for login page 
 @app.route('/', methods=['GET'])
 def home():
@@ -67,9 +151,9 @@ def home():
 def login():
     username = request.args.get('username',default=None)
     password = request.args.get('password',default=None)
-    print( f"{username} {password}")    #
+    logger.debug( f"Attempt To Login With- User:{username}, Pass:{password}")    #
     status = user.login_user(username,password) 
-    print (username)
+    logger.info(f"User:{username} Login")
     if "Login Successful"== status['message']:
         session['user']=username        
         session['lastRun']=['new','0']
@@ -128,7 +212,7 @@ def register():
     username = request.args.get('username')
     password1 = request.args.get('password1')
     password2 = request.args.get('password2')
-    print(f"Received: username={username}, password1={password1}, password2={password2}")
+    logger.debug(f"Received: username={username}, password1={password1}, password2={password2}")
     # Process registration
     status = user.register_user(username, password1, password2)
 
@@ -189,7 +273,7 @@ def remove_domain(domainName):
 def add_from_file(filename):    
     if session['user']=="" :
         return "No User is logged in"           
-    print (filename)
+    logger.info(f"File:{filename}")
     return domain.add_bulk(session['user'],filename)
     
     

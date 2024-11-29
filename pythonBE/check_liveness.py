@@ -6,6 +6,7 @@ from queue import Queue
 import time
 from pythonBE import check_certificate 
 import os
+from pythonBE.logs import logger
 
 # livness and ssl info function , for single domain file "all=False" , for domains file "all=True"
 # function will read Domain/Domains file and will update relevant fields in file 
@@ -31,7 +32,7 @@ def livness_check (username):
         urls_queue.put(d['domain']) 
          
     numberOfDomains=urls_queue.qsize()
-    print(f"Total URLs to check: {numberOfDomains}")
+    logger.info(f"Total URLs to check: {numberOfDomains}")
 
     # Define the URL checking function with a timeout and result storage
     def check_url():
@@ -44,7 +45,7 @@ def livness_check (username):
             result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":'FAILED',"ssl_Issuer": 'FAILED' }  # Default to FAILED
             try:
                 response = requests.get(f'http://{url}', timeout=10)
-                print(url)
+                logger.info(f"URL To Check:{url}")
                 if response.status_code == 200:                    
                     certInfo=check_certificate.certificate_check(url) 
                     result = {'domain': url, 'status_code': 'OK' ,"ssl_expiration":certInfo[0],"ssl_Issuer": certInfo[1][:30]}  # Default to FAILED
@@ -67,7 +68,7 @@ def livness_check (username):
         # Write results to JSON file
         with open(fileToCheck, 'w') as outfile:
             json.dump(results, outfile, indent=4)
-        print("Report generated in report.json")
+        logger.info("Report generated in doamins.json")
 
     # Run URL checks in parallel
     with concurrent.futures.ThreadPoolExecutor(max_workers=100) as liveness_threads_pool:
@@ -82,7 +83,7 @@ def livness_check (username):
     end_time = time.time()
     elapsed_time = end_time - start_time
 
-    print(f"URL liveness check complete in {elapsed_time:.2f} seconds.")
+    logger.debug(f"URL liveness check complete in {elapsed_time:.2f} seconds.")
     with open(f'./userdata/{username}_domains.json', 'r') as f:
         results = json.load(f)
     return start_date_time,str(numberOfDomains)

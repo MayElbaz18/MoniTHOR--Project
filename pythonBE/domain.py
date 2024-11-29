@@ -41,7 +41,8 @@ def add_domain (userName,domain) :
     
 
     with open(userDomainsFile, 'w') as f:        
-        json.dump(currentListOfDomains, f, indent=4)        
+        json.dump(currentListOfDomains, f, indent=4)
+        logger.debug(f'The {domain} Upload To {userDomainsFile} By {userName}')        
       
         return successMessage
 
@@ -85,7 +86,7 @@ def remove_domain (userName,domain) :
 
 def add_bulk(userName,fileName):
     fileName=fileName.replace('"','')
-    print (fileName , userName)
+    logger.debug(f"File: {fileName}, User: {userName}")
 
     
     if not os.path.exists(fileName):

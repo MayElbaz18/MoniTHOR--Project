@@ -71,6 +71,28 @@ h3 {
     margin: 0 auto;
 }
 
+/*Google Login button*/
+.google-login {
+    margin-top: 10px;
+}
+
+.google-login a {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #f52121;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: white;
+}
+
+.google-login a img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+
 /* Top row with single and bulk forms side by side */
 #top-row {
     display: flex;
