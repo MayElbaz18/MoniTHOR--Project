@@ -47,6 +47,15 @@ h2 {
     border-radius: 8px;
 }
 
+#error-message {
+    color: red;
+    display: none;
+    background-color: white !important;
+    border: 1px solid red;
+    width: 50%;
+    margin-left: 25%;
+    border-radius: 10px;
+}
 
 h3 {
     padding: 10px;
@@ -224,28 +233,44 @@ label {
 }
 
 /*-----Table-----*/
-table {
-    width: 85%;
+ table {
+    width: 100%;
     border-collapse: collapse;
     margin: 20px auto;
-    background-color: #21a68c;
+    background-color: #eac1b8;
   }
+
   table, th, td {
-    border: 1px solid #dde2e3;
+    border: 1px solid black;
   }
 
   th, td {
-    padding: 10px;
     text-align: left;
-    color: #dde2e3;
+    color: #000202;
+    padding: 10px;
   }
 
   th {
-    background-color: #b5f265;
+    background-color: #c4d4d7;
     color: #000608;
   }
 
-  caption {
-    font-size: 1.5em;
-    margin: 10px 0;
+  .status-code {
+    text-align: center;
+    width: 40px;
   }
+
+  .status-ok {
+    background-color: green;
+    border-radius: 50%;
+    color: white; 
+    font-weight: bold; 
+    
+  }
+  .status-failed {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+  }
+  

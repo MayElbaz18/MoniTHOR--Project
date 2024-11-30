@@ -129,6 +129,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }else {
         console.warn('Bulk-monitor form not found.');
     }
+
+        // Schedule-monitoring Form Submission
+        document.getElementById('schedule-monitoring-form').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+        
+            // Gather form data
+            const formData = new FormData(this);
+        
+            try {
+                // Send a POST request with form data
+                const response = await fetch('/schedule_bulk_monitoring', {
+                    method: 'POST',
+                    body: formData, // Use FormData directly for form-encoded submission
+                });
+        
+                if (response.ok) {
+                    const data = await response.json(); // Parse the JSON response
+                    alert(data.message); // Show the success message
+                    window.location.href = '/dashboard'; // Redirect to the dashboard
+                } else {
+                    alert('Failed to schedule monitoring. Please check your input and try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An unexpected error occurred. Please try again later.');
+            }
+        });
     
 });
 
@@ -185,32 +212,20 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred.');
         });
     }
-    
-    // Schedule-monitoring Form Submission
-    document.getElementById('schedule-monitoring-form').addEventListener('submit', async function (event) {
-        event.preventDefault(); // Prevent default form submission behavior
-    
-        // Gather form data
-        const formData = new FormData(this);
-    
-        try {
-            // Send a POST request with form data
-            const response = await fetch('/schedule_bulk_monitoring', {
-                method: 'POST',
-                body: formData, // Use FormData directly for form-encoded submission
+
+    // Define status-code with class for styleing
+    document.addEventListener("DOMContentLoaded", () => {
+        function styleStatusCells() {
+            const statusCells = document.querySelectorAll('#resultsBody .status-code');
+            statusCells.forEach(cell => {
+                const status = cell.textContent.trim();
+                if (status === "OK") {
+                    cell.classList.add('status-ok');
+                } else if (status === "FAILED") {
+                    cell.classList.add('status-failed');
+                }
             });
-    
-            if (response.ok) {
-                const data = await response.json(); // Parse the JSON response
-                alert(data.message); // Show the success message
-                window.location.href = '/dashboard'; // Redirect to the dashboard
-            } else {
-                alert('Failed to schedule monitoring. Please check your input and try again.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An unexpected error occurred. Please try again later.');
         }
+        styleStatusCells();
     });
     
-
