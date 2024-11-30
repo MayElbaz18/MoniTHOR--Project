@@ -257,20 +257,15 @@ label {
 
   .status-code {
     text-align: center;
-    width: 40px;
   }
 
   .status-ok {
-    background-color: green;
-    border-radius: 50%;
-    color: white; 
+    color: green;
     font-weight: bold; 
     
   }
   .status-failed {
-    background-color: red;
-    color: white;
-    border-radius: 50%;
+    color: red;
     font-weight: bold;
   }
   

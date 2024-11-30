@@ -164,6 +164,7 @@ def login():
 @app.route('/dashboard', methods=['GET'])
 def main():
     user_file = f'./userdata/{session['user']}_domains.json'
+    session['lastRun']=['','0']
     if os.path.exists(user_file):
      with open(user_file, 'r') as f:
           data = json.load(f)

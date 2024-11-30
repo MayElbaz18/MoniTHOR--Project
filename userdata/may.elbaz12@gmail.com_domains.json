@@ -1,14 +1,98 @@
 [
     {
-        "domain": "123.org",
+        "domain": "sdsad.saa",
+        "status_code": "FAILED",
+        "ssl_expiration": "FAILED",
+        "ssl_Issuer": "FAILED"
+    },
+    {
+        "domain": "googletagmanager.com",
+        "status_code": "FAILED",
+        "ssl_expiration": "FAILED",
+        "ssl_Issuer": "FAILED"
+    },
+    {
+        "domain": "github.com",
         "status_code": "OK",
-        "ssl_expiration": "2025-05-23 23:05:51",
-        "ssl_Issuer": "Starfield Technologies, Inc."
+        "ssl_expiration": "2025-03-07 23:59:59",
+        "ssl_Issuer": "Sectigo Limited"
+    },
+    {
+        "domain": "linkedin.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-14 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "youtube.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-01-13 08:36:56",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "microsoft.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-04-22 15:47:07",
+        "ssl_Issuer": "Microsoft Corporation"
+    },
+    {
+        "domain": "en.wikipedia.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-10-17 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "google.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-01-13 08:36:56",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "youtu.be",
+        "status_code": "OK",
+        "ssl_expiration": "2025-01-13 08:36:56",
+        "ssl_Issuer": "Google Trust Services"
     },
     {
         "domain": "facebook.com",
         "status_code": "OK",
-        "ssl_expiration": "2024-12-06 23:59:59",
+        "ssl_expiration": "2024-12-07 23:59:59",
         "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "wikipedia.org",
+        "status_code": "OK",
+        "ssl_expiration": "2025-10-17 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "play.google.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-01-13 08:36:56",
+        "ssl_Issuer": "Google Trust Services"
+    },
+    {
+        "domain": "twitter.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-08-18 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "apple.com",
+        "status_code": "OK",
+        "ssl_expiration": "2025-02-12 20:09:50",
+        "ssl_Issuer": "Apple Inc."
+    },
+    {
+        "domain": "instagram.com",
+        "status_code": "OK",
+        "ssl_expiration": "2024-12-07 23:59:59",
+        "ssl_Issuer": "DigiCert Inc"
+    },
+    {
+        "domain": "wordpress.org",
+        "status_code": "OK",
+        "ssl_expiration": "2024-12-31 23:59:59",
+        "ssl_Issuer": "Sectigo Limited"
     }
 ]
