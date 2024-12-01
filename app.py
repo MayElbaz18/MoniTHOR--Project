@@ -271,22 +271,29 @@ def add_new_domain(domainName):
     return domain.add_domain(session['user'],domainName)   
     
 # Route to remove a single domain 
-@app.route('/remove_domain/<domainName>',methods=['GET', 'POST'])
+@app.route('/remove_domain/<domainName>', methods=['GET', 'POST'])
 def remove_domain(domainName):
-    logger.debug(f'Route being code {domainName}')
-    if session['user']=="" :
+    logger.debug(f'Route being called with domain: {domainName}')
+    if session['user'] == "":
         return "No User is logged in"
-    # Get the domain name from the form data
+
     logger.debug(f'Domain name is {domainName}')    
-    response= domain.remove_domain(session['user'],domainName)   
+    response = domain.remove_domain(session['user'], domainName)
 
-    if  response['message']   ==  "Domain successfully removed":       
-        globalInfo['runInfo']= (globalInfo['runInfo'][0], str(int(globalInfo['runInfo'][1])-1))        
+    if response['message'] == "Domain successfully removed":       
+        try:
+            logger.debug(f"Before update: globalInfo['runInfo']: {globalInfo['runInfo']}")
+            current_count = int(globalInfo['runInfo'][1])
+            globalInfo['runInfo'] = (globalInfo['runInfo'][0], str(current_count - 1))
+            logger.debug(f"After update: globalInfo['runInfo']: {globalInfo['runInfo']}")
+        except ValueError:
+            logger.error(f"Invalid value in globalInfo['runInfo'][1]: {globalInfo['runInfo'][1]}")
+            globalInfo['runInfo'] = (globalInfo['runInfo'][0], '0')  # Fallback value
+
         return response
-    
-    
 
- 
+    return "Error: Domain could not be removed"
+    
 
 
 # usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
