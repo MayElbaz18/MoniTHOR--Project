@@ -80,3 +80,7 @@ sudo systemctl enable MoniTHOR.service
 ⦁	if port 8080 is not open : Navigate to EC2 -> Security Groups -> Select the Security Group -> Add a new Inbound Rule for HTTP with port 8080.
 Verification and Approval:
 ⦁	After completing the process, verify that the application is running and accessible via the browser at: http://<your-ec2-public-ip>:8080.
+
+Automated Install:
+put .env file in place (/home/ubuntu)
+run in terminl the commend: "curl https://raw.githubusercontent.com/MayElbaz18/MoniTHOR--Project/refs/heads/main/monithor.sh | sh" 
