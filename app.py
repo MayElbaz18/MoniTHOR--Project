@@ -20,6 +20,10 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
+# Global parmeters to keep last job info.
+global globalInfo 
+globalInfo = {'runInfo': ('--:--  --/--/-- ', '-')}
+
 # Google OAuth2 details
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
@@ -156,7 +160,7 @@ def login():
     logger.info(f"User:{username} Login")
     if "Login Successful"== status['message']:
         session['user']=username        
-        session['lastRun']=['new','0']
+        globalInfo['runInfo']=['--:--  --/--/-- ', '-']
         return "Login Successful"    
     return render_template('login.html')
 
@@ -164,7 +168,7 @@ def login():
 @app.route('/dashboard', methods=['GET'])
 def main():
     user_file = f'./userdata/{session['user']}_domains.json'
-    session['lastRun']=['','0']
+    globalInfo['runInfo']=['--:--  --/--/-- ', '-']
     if os.path.exists(user_file):
      with open(user_file, 'r') as f:
           data = json.load(f)
@@ -174,11 +178,21 @@ def main():
     # Extract the required parts for the forms
     all_domains = [item['domain'] for item in data]  # List of domain names
     latest_results = data[:6]  # Last 6 results
+    
+    failuresCount = sum(1 for item in data if item.get('status_code') == 'FAILED' )    
+    if len(all_domains)>0 :
+        failuresPrecent=  round (float(float(failuresCount)/float(len(all_domains)))*100,1)
+    else:
+        failuresPrecent=0
+    
+    
     # Pass scheduled jobs for the current user
     user_jobs = [job for job in scheduled_jobs if job['user'] == session['user']]
     utc_timezones = [tz for tz in pytz.all_timezones if tz.startswith('UTC')]    
+    
+    
     return render_template('dashboard.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results, scheduled_jobs=user_jobs,
-                            utc_timezones=utc_timezones,last_run=session['lastRun'][0] ,number_of_domains=session['lastRun'][1]  )
+                            utc_timezones=utc_timezones,last_run=globalInfo['runInfo'][0] ,number_of_domains=f"{globalInfo['runInfo'][1]} failures {failuresPrecent} %" )
 
 # Route for user results
 @app.route('/results', methods=['GET'])
@@ -193,7 +207,15 @@ def results():
     # Extract the required parts for the forms
     all_domains = [item['domain'] for item in data]  # List of domain names
     latest_results = data[:6]  # Last 6 results
-    return render_template('results.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results,last_run=session['lastRun'][0] ,number_of_domains=session['lastRun'][1] )
+    # Calculate failures 
+    failuresCount = sum(1 for item in data if item.get('status_code') == 'FAILED' )
+    if len(all_domains)>0 :
+        failuresPrecent=  round (float(float(failuresCount)/float(len(all_domains)))*100,1)
+    else:
+        failuresPrecent=0   
+    lastRunInfo=f"{globalInfo['runInfo'][0]} , {globalInfo['runInfo'][1]} Domains , {failuresPrecent}% failures"
+    
+    return render_template('results.html', user=session['user'], data=data, all_domains=all_domains, latest_results=latest_results,last_run=lastRunInfo)
 
 # Route for Logoff
 @app.route('/logoff', methods=['GET'])
@@ -202,7 +224,7 @@ def logoff():
     if user=="":
         return  ("No user is logged in")    
     session['user']=""    
-    session['lastRun']=['new','0']
+    globalInfo['runInfo']=['--:--  --/--/-- ', '-']
     return  render_template('login.html')
 
 
@@ -259,7 +281,7 @@ def remove_domain(domainName):
     response= domain.remove_domain(session['user'],domainName)   
 
     if  response['message']   ==  "Domain successfully removed":       
-        session['lastRun']= (session['lastRun'][0], str(int(session['lastRun'][1])-1))        
+        globalInfo['runInfo']= (globalInfo['runInfo'][0], str(int(globalInfo['runInfo'][1])-1))        
         return response
     
     
@@ -283,14 +305,14 @@ def add_from_file(filename):
 def check_livness(username):    
     if session['user']=="" :
         return "No User is logged in" 
-    session["lastRun"]=check_liveness.livness_check (username)    
-    return session["lastRun"]
+    globalInfo["runInfo"]=check_liveness.livness_check (username)        
+    return globalInfo["runInfo"]
     
 
 
 def Checkjob(username):    
-    check_liveness.livness_check (username)
-    return redirect('/dashboard')
+    globalInfo["runInfo"]=check_liveness.livness_check (username)
+    return redirect('/results')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
