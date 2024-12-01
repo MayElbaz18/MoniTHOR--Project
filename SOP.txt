@@ -27,7 +27,7 @@ Windows client :
 
 ⦁	Import Application Files from Git Repository:
 sh
-sudo apt update -y && apt upgrage
+sudo apt update -y && apt upgrade
 sudo apt install git -y
 git clone https://github.com/MayElbaz18/MoniTHOR--Project
 cd MoniTHOR--Project
