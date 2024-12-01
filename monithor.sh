@@ -16,6 +16,7 @@ python3 -m pip install -r requirements.txt --break-system-packages --ignore-inst
 
 # Set proper permissions
 sudo chmod -R 777 .
+mv .env /home/ubuntu/MoniTHOR--Project
 
 # Create a systemd service file for MoniTHOR
 sudo bash -c 'cat << EOF > /etc/systemd/system/MoniTHOR.service
