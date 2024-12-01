@@ -8,6 +8,7 @@ sudo apt install git python3-pip -y
 
 # Clone the project repository
 git clone https://github.com/MayElbaz18/MoniTHOR--Project.git
+sudo mv .env /home/ubuntu/MoniTHOR--Project
 cd MoniTHOR--Project
 
 # Install Python dependencies
@@ -16,7 +17,6 @@ python3 -m pip install -r requirements.txt --break-system-packages --ignore-inst
 
 # Set proper permissions
 sudo chmod -R 777 .
-mv .env /home/ubuntu/MoniTHOR--Project
 
 # Create a systemd service file for MoniTHOR
 sudo bash -c 'cat << EOF > /etc/systemd/system/MoniTHOR.service
@@ -40,7 +40,7 @@ EOF'
 sudo systemctl daemon-reload
 
 # Start and enable the MoniTHOR service
-sudo systemctl start MoniTHOR.service
+sudo systemctl start 
 sudo systemctl enable MoniTHOR.service
 
 # Stop UFW if necessary (consider configuring it properly instead of disabling)
