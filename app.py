@@ -295,6 +295,7 @@ def remove_domain(domainName):
     return "Error: Domain could not be removed"
 
 
+
 # usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
 # using  %5C instaed of  "\"  
 # in UI put    ./userdata/Domains_for_upload.txt
