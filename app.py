@@ -291,9 +291,10 @@ def remove_domain(domainName):
             globalInfo['runInfo'] = (globalInfo['runInfo'][0], '0')  # Fallback value
 
         return response
-
-    return "Error: Domain could not be removed"
     
+    
+
+ 
 
 
 # usage : http://127.0.0.1:8080/bulk_upload/.%5Cuserdata%5CDomains_for_upload.txt 
