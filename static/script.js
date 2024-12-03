@@ -179,6 +179,28 @@ document.addEventListener('DOMContentLoaded', () => {
     
 });
 
+     async function runCheck()
+     {   
+
+        try {
+            
+            const title = document.getElementById('results').innerText;  
+            console.log(title)            
+            let username=title.replace("\'s Results","")                        
+                      
+            const response2 = await fetch(`check/${username}`);
+            const checkResponse = await response2.text();
+            console.log(checkResponse);
+            alert('Check Is Finished')                    
+            setTimeout(() => {
+                window.location.href = '/results';
+            }, 1000); // 1000 milliseconds = 1 seconds
+        } catch (error) {
+            console.error('Error runing check:', error);
+        }
+
+     }
+
     // Delete domain function
     function removeDomain(buttonElement) {
         console.log("Remove button clicked.");
