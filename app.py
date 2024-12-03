@@ -170,7 +170,6 @@ def login():
 @app.route('/dashboard', methods=['GET'])
 def main():
     user_file = f'./userdata/{session['user']}_domains.json'
-    globalInfo['runInfo']=['--:--  --/--/-- ', '-']
     if os.path.exists(user_file):
      with open(user_file, 'r') as f:
           data = json.load(f)
@@ -337,7 +336,8 @@ def upload_file():
 
 def Checkjob(username):    
     globalInfo["runInfo"]=check_liveness.livness_check (username)
-    return redirect('/results')
+    redirect('/results')
+    return  globalInfo["runInfo"]
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
