@@ -19,6 +19,8 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)  # __name__ helps Flask locate resources and configurations
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
+app.config['UPLOAD_FOLDER'] = 'uploads'
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Global parmeters to keep last job info.
 global globalInfo 
@@ -316,7 +318,22 @@ def check_livness(username):
     globalInfo["runInfo"]=check_liveness.livness_check (username)        
     return globalInfo["runInfo"]
     
-
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return 'No file part'
+    file = request.files['file']
+    if file.filename == '':
+        return 'No selected file'
+    if file:
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(filepath)
+        add_from_file(filepath)
+        if os.path.exists(filepath): 
+            os.remove(filepath)
+               
+        
+        return {'message':'File successfully uploaded','file': filepath }
 
 def Checkjob(username):    
     globalInfo["runInfo"]=check_liveness.livness_check (username)

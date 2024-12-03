@@ -61,8 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Error adding domain:', error);
                 }
 
-                try {
-                    console.log("Trying")
+                try {                    
                     const response2 = await fetch(`check/${username}`);
                     const checkResponse = await response2.text();                    
                     console.log(checkResponse);
@@ -93,23 +92,44 @@ document.addEventListener('DOMContentLoaded', () => {
             let username=title.replace("\'s Dashboard","")
             var actionValue = document.activeElement.value;
             console.log(actionValue)
-
             console.log(username)
             console.log(bulkFileInput);            
+
             let fileName =bulkFileInput.replaceAll("/","%5C")
             fileName = fileName.replaceAll("\\","%5C")
+            
+            
+            
             console.log(fileName);            
             if (actionValue === "upload-check") {
+
+                            //uploading file 
+            var fileInput =document.getElementById('bulk')                        
+            var file = fileInput.files[0];
+                       
+            if (typeof file  === 'undefined') { 
+            alert("File name for upload is missing") }
+            
+            var formData = new FormData();
+            formData.append('file', file);
+
             try {
-                    const response1 = await fetch(`bulk_upload/${fileName}`);
-                    const uploadData = await response1.text();
-                    if (uploadData=="File Not Exist")
-                        {alert(uploadData);}
-                    else 
-                        {console.log('Bulk upload');}
-                } catch (error) {
-                    console.error('Error adding domain:', error);
+                var response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    var jsonResponse = await response.json();
+                    alert(jsonResponse['message']);
+                                       
                 }
+
+            } catch (error) {  
+                console.error('Error:', error);                
+            }                   
+            // end of uploding file 
+            
 
             }
                 try {
