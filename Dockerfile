@@ -1,13 +1,13 @@
 # Use the official Python image from the Docker Hub
 FROM python
-RUN mkdir /MoniTHOR--Project-main
-RUN chmod 777 /MoniTHOR--Project-main
+RUN mkdir /MoniTHOR--Project
+RUN chmod 777 /MoniTHOR--Project
 
 # Copy the rest of the application code
-COPY . /MoniTHOR--Project-main
+COPY . /MoniTHOR--Project
 
 # Set the working directory
-WORKDIR /MoniTHOR--Project-main
+WORKDIR /MoniTHOR--Project
 
 # Install the dependencies
 RUN pip install -r requirements.txt
