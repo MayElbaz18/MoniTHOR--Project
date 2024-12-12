@@ -122,7 +122,7 @@ def test_file_upload():
     time.sleep(2)
 
 #def remove_all_domains():
-def remove_all_doamins():
+def remove_doamins(domain='ALL'):
     list_group = driver.find_element("id", "domains")
     while True:
         try:
@@ -136,11 +136,11 @@ def remove_all_doamins():
                 try:
                     domain_name = item.text.split("\n")[0]  # Extract the domain name text
                     print(f"Closing domain: {domain_name}")
-
-                    # Re-locate the close button each time to avoid stale element reference
-                    close_button = item.find_element("class name", "close")
-                    close_button.click()
-                    alert_wait_and_click()
+                    if domain=='ALL' or domain==domain_name:
+                        # Re-locate the close button each time to avoid stale element reference
+                        close_button = item.find_element("class name", "close")
+                        close_button.click()
+                        alert_wait_and_click()                        
                     
                     # Wait a little for the DOM to update after removing an item
                     time.sleep(1)
@@ -151,16 +151,21 @@ def remove_all_doamins():
 
         except StaleElementReferenceException:
             print("Outer StaleElementReferenceException caught! Re-locating the list group and items.")
-            list_group = driver.find_element("id", "domains")
+            if domain==domain_name:
+                break
+            list_group = driver.find_element("id", "domains")            
             continue  # Re-locate the list group and re-enter the loop
     
 
 
-   
+def quit():
 # Close the WebDriver
     driver.quit()
 
 if __name__ == "__main__":
     test_single_domain_upload_and_verifcation()
     test_file_upload()  
-    remove_all_doamins()
+    remove_doamins('apple.com')  # remove specific doamin 
+    remove_doamins()  # remove all domains 
+    quit()
+
