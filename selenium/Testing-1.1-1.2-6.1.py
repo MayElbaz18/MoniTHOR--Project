@@ -23,9 +23,10 @@ def driver(request):
 def test_user_registration(driver):
     # Step 1: User Registration
     driver.get('http://127.0.0.1:8080/register')
-    driver.find_element(By.NAME, 'Username').send_keys('Test')
-    driver.find_element(By.NAME, 'Password').send_keys('Test111')
-    driver.find_element(By.CSS_SELECTOR, 'input[type="submit"]').click()
+    driver.find_element(By.NAME, 'Username:').send_keys('Test')
+    driver.find_element(By.NAME, 'Password:').send_keys('Test111')
+    driver.find_element(By.NAME, 'Confirm Password:').send_keys('Test111')
+    driver.find_element(By.CSS_SELECTOR, 'input[type="REGISTER"]').click()
     
     success_message = driver.find_element(By.TAG_NAME, 'body').text
     assert "User registered successfully!" in success_message
@@ -40,10 +41,10 @@ def test_user_login(driver):
     driver.get('http://127.0.0.1:8080/login')
     driver.find_element(By.NAME, 'Username').send_keys('Test')
     driver.find_element(By.NAME, 'Password').send_keys('Test111')
-    driver.find_element(By.CSS_SELECTOR, 'input[type="submit"]').click()
+    driver.find_element(By.CSS_SELECTOR, 'input[type="LOGIN"]').click()
     
     dashboard_message = driver.find_element(By.TAG_NAME, 'h1').text
-    assert "Welcome unique_user" in dashboard_message
+    assert "Welcome Test" in dashboard_message
 
     dashboard_status = driver.find_element(By.TAG_NAME, 'p').text
     assert "Secure Session Active" in dashboard_status
@@ -62,7 +63,7 @@ def test_secure_session_management(driver):
     driver.get('http://127.0.0.1:8080/login')
     driver.find_element(By.NAME, 'Username').send_keys('Test')
     driver.find_element(By.NAME, 'Password').send_keys('Test111')
-    driver.find_element(By.CSS_SELECTOR, 'input[type="submit"]').click()
+    driver.find_element(By.CSS_SELECTOR, 'input[type="LOGIN"]').click()
 
     time.sleep(10)  # Adjust the delay based on your session timeout settings
     driver.get('http://127.0.0.1:8080/dashboard')
