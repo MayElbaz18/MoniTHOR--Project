@@ -134,8 +134,7 @@ def remove_doamins(domain='ALL'):
 
             for item in list_items:
                 try:
-                    domain_name = item.text.split("\n")[0]  # Extract the domain name text
-                    print(f"Closing domain: {domain_name}")
+                    domain_name = item.text.split("\n")[0]  # Extract the domain name text                    
                     if domain=='ALL' or domain==domain_name:
                         # Re-locate the close button each time to avoid stale element reference
                         close_button = item.find_element("class name", "close")
@@ -145,12 +144,10 @@ def remove_doamins(domain='ALL'):
                     # Wait a little for the DOM to update after removing an item
                     time.sleep(1)
 
-                except StaleElementReferenceException:
-                    print("StaleElementReferenceException caught! Re-locating elements.")
+                except StaleElementReferenceException:                    
                     break  # Exit the loop to re-locate all elements
 
-        except StaleElementReferenceException:
-            print("Outer StaleElementReferenceException caught! Re-locating the list group and items.")
+        except StaleElementReferenceException:            
             if domain==domain_name:
                 break
             list_group = driver.find_element("id", "domains")            
