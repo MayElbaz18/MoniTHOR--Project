@@ -21,9 +21,8 @@ def is_alert_present():
         return True 
     except NoAlertPresentException: 
         return False
-
-
-def test_single_domain_upload_and_verifcation():
+    
+def register(username,password1,paswword2):
     # Rgister user tester 
     driver.get(f"{url}/register")
     input_field = driver.find_element("id", "username")
@@ -34,7 +33,6 @@ def test_single_domain_upload_and_verifcation():
     input_field.send_keys("tester")
     button = driver.find_element("class name", "register-submit")
     button.click()
-
     # waiting for alert to pop up before close
     while is_alert_present()==False: 
         time.sleep(1)
@@ -42,6 +40,8 @@ def test_single_domain_upload_and_verifcation():
     alert = driver.switch_to.alert
     alert.accept()
 
+
+def login(useraname,password):
     # login user teser 
     driver.get(f"{url}/login")    
     input_field = driver.find_element("id", "username")
@@ -53,23 +53,19 @@ def test_single_domain_upload_and_verifcation():
     button = driver.find_element("class name", "login-submit")
     button.click()
 
-    # settin single domain input    
+def single_upload(domain):
+        # settin single domain input    
     input_field = driver.find_element("id", "single")
-    input_field.send_keys(config['single-domain'])
-
+    input_field.send_keys(domain)
     button = driver.find_element("class name", "single-submit")
     button.click()
-
     while is_alert_present()==False: 
         time.sleep(1)
-
     alert = driver.switch_to.alert
     alert.accept()
-
-
     time.sleep(5)
-
     
+def verfiy_results(domain):
     # analysing results
     table_body = driver.find_element("id", "resultsBody")
     # Iterate through the rows of the table body
@@ -77,7 +73,7 @@ def test_single_domain_upload_and_verifcation():
     for row in rows:
         # Extract cells (td elements) in the row
         cells = row.find_elements("tag name", "td")
-        if config['single-domain']==cells[0].text:
+        if domain==cells[0].text:
             # Extract text from each cell
             domain = cells[0].text
             status = cells[1].text
@@ -85,16 +81,24 @@ def test_single_domain_upload_and_verifcation():
             issuer = cells[3].text            
 
     # getting validation data and compare compare with UI 
-    status_validation = get_url_status(config['single-domain'])
+    status_validation = get_url_status(domain)
     if not  (status_validation =='OK' or status_validation =='FAILED'):     
         sys.exit(1)
 
-    cert=certificate_checks(config['single-domain'])
+    cert=certificate_checks(domain)
     if not (expiration_date == cert[0]):            
         sys.exit(1)    
     if not issuer == cert[1]:
         sys.exit(1)
 
+def test_single_domain_upload_and_verifcation():
+    # Rgister user tester 
+    register('tester','tester','tester')
+    login('tester','tester')
+    single_upload(config['single-domain'])
+    verfiy_results(config['single-domain'])    
+   
+   
     # Close the WebDriver
     driver.quit()
 
