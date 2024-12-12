@@ -119,33 +119,10 @@ def test_file_upload():
     alert_wait_and_click()
     alert_wait_and_click()
 
-    time.sleep(15)
-
-    
-    
-
-def remove_all_doamins():
-    # # Locate the list group by its id attribute
-
-    # list_group = driver.find_element("id", "domains")
-
-    # # Find all list items (li elements) within the list group
-    # list_items = list_group.find_elements("class name", "list-group-item")
-
-    # # Iterate through the list items and click the close button in each one
-    # for item in list_items:
-    #     #domain_name = item.text.split("\n")[0]  # Extract the domain name text
-    #     #print(f"Closing domain: {domain_name}")
-    #     close_button = item.find_element("class name", "close")
-    #     close_button.click()        
-    #     alert_wait_and_click()
-    #     print("**")
-    #     time.sleep(10)
-
-        
-# Locate the list group by its id attribute
+    time.sleep(2)
 
 #def remove_all_domains():
+def remove_all_doamins():
     list_group = driver.find_element("id", "domains")
     while True:
         try:
