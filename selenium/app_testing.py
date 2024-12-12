@@ -77,11 +77,12 @@ def test_single_domain_upload_and_verifcation():
     for row in rows:
         # Extract cells (td elements) in the row
         cells = row.find_elements("tag name", "td")
-        # Extract text from each cell
-        domain = cells[0].text
-        status = cells[1].text
-        expiration_date = cells[2].text
-        issuer = cells[3].text
+        if config['single-domain']==cells[0].text:
+            # Extract text from each cell
+            domain = cells[0].text
+            status = cells[1].text
+            expiration_date = cells[2].text
+            issuer = cells[3].text            
 
     # getting validation data and compare compare with UI 
     status_validation = get_url_status(config['single-domain'])
