@@ -23,7 +23,9 @@
         <div id="bottom-row">   
             <form id="schedule-monitoring-form" method="POST" action="/schedule_bulk_monitoring">
                 <label for="schedule-time">Schedule Monitoring:</label>
-                <input type="datetime-local" id="schedule-time" name="schedule_time">
+                <input type="date" id="schedule-date" name ="schedule_date"  >
+                <input type="time" id="schedule-time"  name="schedule_time">
+
                 <select id="timezone" name="timezone">
                 {% for tz in utc_timezones %}
                     <option value="{{ tz }}">{{ tz }}</option>
