@@ -24,7 +24,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Global parmeters to keep last job info.
 global globalInfo 
-globalInfo = {'runInfo': ('--:--  --/--/-- ', '-')}
+globalInfo = {'runInfo': ('--/--/---- --:--', '-')} 
 
 # Google OAuth2 details
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
@@ -44,14 +44,15 @@ scheduled_jobs = [] # Store scheduled jobs
 @app.route('/schedule_bulk_monitoring', methods=['POST'])
 def schedule_bulk_monitoring():
     # Get form data    
+    schedule_date = request.form['schedule_date']
     schedule_time = request.form['schedule_time']
     timezone = request.form['timezone']
     interval = request.form.get('interval')
     user = session['user']    
-
+    schedule_date_time=f"{schedule_date} {schedule_time}"
     # Convert time to UTC
     local_tz = pytz.timezone(timezone)
-    local_time = local_tz.localize(datetime.fromisoformat(schedule_time))
+    local_time = local_tz.localize(datetime.fromisoformat(schedule_date_time))
     utc_time = local_time.astimezone(pytz.utc)
 
     # Generate a unique job ID
@@ -162,7 +163,7 @@ def login():
     logger.info(f"User:{username} Login")
     if "Login Successful"== status['message']:
         session['user']=username        
-        globalInfo['runInfo']=['--:--  --/--/-- ', '-']
+        globalInfo['runInfo']=['--/--/---- --:--', '-']
         return "Login Successful"    
     return render_template('login.html')
 
@@ -225,7 +226,7 @@ def logoff():
     if user=="":
         return  ("No user is logged in")    
     session['user']=""    
-    globalInfo['runInfo']=['--:--  --/--/-- ', '-']
+    globalInfo['runInfo']=['--/--/---- --:--', '-']
     return  render_template('login.html')
 
 

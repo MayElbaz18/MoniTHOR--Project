@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import requests
 import json
 import concurrent.futures
@@ -14,8 +14,7 @@ from pythonBE.logs import logger
 
 def livness_check (username):
     # Measure start time
-    now = datetime.now() # Format the date and time in a friendly way 
-    start_date_time = now.strftime("%H:%M  %d/%m/%y ")
+    start_date_time = datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M")
     start_time = time.time()    
     urls_queue = Queue()
     analyzed_urls_queue = Queue()
@@ -86,5 +85,6 @@ def livness_check (username):
     logger.debug(f"URL liveness check complete in {elapsed_time:.2f} seconds.")
     with open(f'./userdata/{username}_domains.json', 'r') as f:
         results = json.load(f)
+    start_date_time=start_date_time+' (UTC)'
     return start_date_time,str(numberOfDomains)
 
