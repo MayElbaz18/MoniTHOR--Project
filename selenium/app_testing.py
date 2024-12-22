@@ -13,6 +13,17 @@ from selenium.common.exceptions import StaleElementReferenceException
 from datetime import datetime, timedelta, timezone
 import time , json
 from utils import   get_url_status ,certificate_checks
+import random
+import string
+
+def generate_password(length=8):
+    # Define character sets
+    all_characters = string.ascii_letters + string.digits #+ string.punctuation
+    # Generate a random password
+    password = ''.join(random.choice(all_characters) for _ in range(length))
+    password= f"tes{password}ter"
+    return password
+
 # Full path to the ChromeDriver executable file
 with open('config.json', 'r') as f:
     config = json.load(f)
@@ -37,15 +48,15 @@ def pre_test(unamepass='tester'):
     register(unamepass,unamepass,unamepass)
     login(unamepass,unamepass)
 
-def register(username='tester',password1='tester',paswword2='tester'):
+def register(username='tester',password1='tester',password2='tester'):
     # Rgister user tester 
     driver.get(f"{url}/register")
     input_field = driver.find_element("id", "username")
-    input_field.send_keys("tester")
+    input_field.send_keys(username)
     input_field = driver.find_element("id", "password1")
-    input_field.send_keys("tester")
+    input_field.send_keys(password1)
     input_field = driver.find_element("id", "password2")
-    input_field.send_keys("tester")
+    input_field.send_keys(password2)
     button = driver.find_element("class name", "register-submit")
     button.click()
     # waiting for alert to pop up before close
@@ -57,10 +68,10 @@ def login(useraname='tester',password='tester'):
     # login user teser 
     driver.get(f"{url}/login")    
     input_field = driver.find_element("id", "username")
-    input_field.send_keys("tester")
+    input_field.send_keys(useraname)
 
     input_field = driver.find_element("id", "password")
-    input_field.send_keys("tester")
+    input_field.send_keys(password)
 
     button = driver.find_element("class name", "login-submit")
     button.click()
@@ -128,7 +139,7 @@ def test_file_upload(unamepass='tester'):
 #def remove_all_domains():
 def remove_doamins(domain='ALL',unamepass='tester'):
     pre_test(unamepass)
-    time.sleep(2)
+    time.sleep(2)    
     driver.get(f"{url}//results")  
     time.sleep(2)
     list_group = driver.find_element("id", "domains")
@@ -160,8 +171,9 @@ def remove_doamins(domain='ALL',unamepass='tester'):
                 break
             list_group = driver.find_element("id", "domains")            
             continue  # Re-locate the list group and re-enter the loop
-def schedule_job(unamepass='tester'):
-    pre_test(unamepass)       
+def schedule_job(unamepass='tester'):    
+    pre_test(unamepass)           
+    driver.get(f"{url}/dashboard")     
     time_input = driver.find_element(By.ID, "schedule-time")
     date_input = driver.find_element(By.ID, "schedule-date")
     interval_input = driver.find_element(By.ID, "interval")    
@@ -210,11 +222,12 @@ def quit():
 
 if __name__ == "__main__":
     init()
-    test_single_domain_upload_and_verifcation()
-    test_file_upload()  
-    schedule_job()
-    test_file_upload()  
-    remove_doamins('apple.com',)  # remove specific doamin 
-    remove_doamins('ALL',)  # remove all domains 
+    gp=generate_password()
+    test_single_domain_upload_and_verifcation(gp)
+    test_file_upload(gp)  
+    schedule_job(gp)
+    test_file_upload(gp)  
+    remove_doamins('apple.com',gp)  # remove specific doamin 
+    remove_doamins('ALL',gp)  # remove all domains 
     quit()
 
