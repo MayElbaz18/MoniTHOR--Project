@@ -286,7 +286,8 @@ def remove_domain(domainName):
         try:
             logger.debug(f"Before update: globalInfo['runInfo']: {globalInfo['runInfo']}")
             current_count = int(globalInfo['runInfo'][1])
-            globalInfo['runInfo'] = (globalInfo['runInfo'][0], str(current_count - 1))
+            if current_count>0:
+                globalInfo['runInfo'] = (globalInfo['runInfo'][0], str(current_count - 1))
             logger.debug(f"After update: globalInfo['runInfo']: {globalInfo['runInfo']}")
         except ValueError:
             logger.error(f"Invalid value in globalInfo['runInfo'][1]: {globalInfo['runInfo'][1]}")
