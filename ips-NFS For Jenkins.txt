@@ -22,7 +22,7 @@ EOF
 
 docker swarm init - (In Swarm1)
 
-docker swarm join --token SWMTKN-1-0dqzawltq3xfy8kawqsq960pfm7zwhgbj12zb3lhlbai25zn11-bzntrvx9iuicv7y8vte1e4t6r Monithor-Swarm1:2377
+docker swarm join --token
 docker node ls - To make sure the swarms configured
 
 in the Storge: server most be with 2 disks
