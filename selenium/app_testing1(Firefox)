@@ -140,3 +140,8 @@ if __name__ == "__main__":
     print("\n--- Test Results ---")
     for username, duration in results:
         print(f"{username}: {duration:.2f} seconds")
+    
+    results_dict = {username: f"{duration:.2f} seconds" for username, duration in results}
+
+    with open ('results.json','w') as f:
+      json.dump(results_dict,f,indent=4) 
