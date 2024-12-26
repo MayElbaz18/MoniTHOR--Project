@@ -12,7 +12,7 @@ from selenium.webdriver.firefox.options import Options
 import time
 import json
 from utils import get_url_status, certificate_checks
-
+from webdriver_manager.firefox import GeckoDriverManager  # Added import for webdriver-manager
 
 firefox_options = Options()
 firefox_options.add_argument("--headless")
@@ -25,7 +25,9 @@ url = f"{config['host']}:{config['port']}/"
 
 # Initialize the WebDriver service
 def create_driver():
-    return webdriver.Firefox(options=firefox_options)
+    # Use GeckoDriverManager to automatically manage the geckodriver version
+    driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=firefox_options)
+    return driver
 
 def is_alert_present(driver):
     try:
@@ -45,6 +47,7 @@ def alert_wait_and_click(driver):
 def register(driver, username, password1, password2):
     driver.get(f"{url}/register")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "username")))
+
     driver.find_element(By.ID, "username").send_keys(username)
     driver.find_element(By.ID, "password1").send_keys(password1)
     driver.find_element(By.ID, "password2").send_keys(password2)
@@ -54,12 +57,14 @@ def register(driver, username, password1, password2):
 def login(driver, username, password):
     driver.get(f"{url}/login")
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "username")))
+
     driver.find_element(By.ID, "username").send_keys(username)
     driver.find_element(By.ID, "password").send_keys(password)
     driver.find_element(By.CLASS_NAME, "login-submit").click()
 
 def single_upload(driver, domain):
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "single")))
+
     driver.find_element(By.ID, "single").send_keys(domain)
     driver.find_element(By.CLASS_NAME, "single-submit").click()
     alert_wait_and_click(driver)
@@ -68,7 +73,7 @@ def single_upload(driver, domain):
 def verify_results(driver, domain):
     table_body = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "resultsBody")))
     rows = table_body.find_elements(By.TAG_NAME, "tr")
-    
+
     status, expiration_date, issuer = None, None, None
     for row in rows:
         cells = row.find_elements(By.TAG_NAME, "td")
@@ -140,8 +145,8 @@ if __name__ == "__main__":
     print("\n--- Test Results ---")
     for username, duration in results:
         print(f"{username}: {duration:.2f} seconds")
-    
+
     results_dict = {username: f"{duration:.2f} seconds" for username, duration in results}
 
-    with open ('results.json','w') as f:
-      json.dump(results_dict,f,indent=4) 
+    with open('results.json', 'w') as f:
+        json.dump(results_dict, f, indent=4)
