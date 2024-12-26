@@ -9,9 +9,9 @@ pipeline {
                 script {
                     cleanWs()
                     echo "Workspace cleaned."
-                    sh """
+                    sh '''
                     sudo docker rm -f $(sudo docker ps -a -q) || true
-                    """
+                    '''
                 }
                 echo "Docker containers removed."
             }
