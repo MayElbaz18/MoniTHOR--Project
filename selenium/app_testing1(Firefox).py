@@ -17,7 +17,7 @@ firefox_options = Options()
 firefox_options.add_argument("--headless")
 
 # Load configuration
-with open('config.json', 'r') as f:
+with open('selenium/config.json', 'r') as f:
     config = json.load(f)
 url = f"{config['host']}:{config['port']}/"
 # Initialize the WebDriver service
