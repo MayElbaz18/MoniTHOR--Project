@@ -50,7 +50,7 @@ pipeline {
                 dir('selenium'){
                     script {
                         sh """
-                        sudo docker exec monithor_container python 'app_testing1\\(Firefox\\).py'
+                        sudo docker exec monithor_container python selenium/app_testing1\\(Firefox\\).py
                         """
                     }
                 }
