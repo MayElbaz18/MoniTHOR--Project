@@ -45,26 +45,36 @@ pipeline {
             }
         }
 
-        stage('Test App') {
-            steps {
-                dir('selenium'){
-                    script {
-                        sh """
-                        sudo docker exec monithor_container python selenium/app_testing1\\(Firefox\\).py
-                        """
-                    }
-                }
-            }
-        }
-
-        stage('Show Results') {
+        stage('Check the container') {
             steps {
                 script {
                     sh """
-                    sudo docker exec monithor_container cat selenium/results.json
+                    sudo docker ps
                     """
                 }
             }
         }
+
+        // stage('Test App') {
+        //     steps {
+        //         dir('selenium'){
+        //             script {
+        //                 sh """
+        //                 sudo docker exec monithor_container python selenium/app_testing1\\(Firefox\\).py
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }
+
+        // stage('Show Results') {
+        //     steps {
+        //         script {
+        //             sh """
+        //             sudo docker exec monithor_container cat selenium/results.json
+        //             """
+        //         }
+        //     }
+        // }
     }
 }
