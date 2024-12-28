@@ -78,7 +78,7 @@ def login(useraname='tester',password='tester'):
 
 def single_upload(domain):
         # settin single domain input    
-    time.sleep(4)
+    time.sleep(5)
     input_field = driver.find_element("id", "single")
     input_field.send_keys(domain)    
     button = driver.find_element("class name", "single-submit")
@@ -225,11 +225,11 @@ def quit():
 if __name__ == "__main__":
     init()
     gp=generate_password()
-    # test_single_domain_upload_and_verifcation(gp)
+    test_single_domain_upload_and_verifcation(gp)
     test_file_upload(gp)  
     schedule_job(gp)
     test_file_upload(gp)  
     remove_doamins('apple.com',gp)  # remove specific doamin 
-    #remove_doamins('ALL',gp)  # remove all domains 
+    remove_doamins('ALL',gp)  # remove all domains 
     quit()
 
