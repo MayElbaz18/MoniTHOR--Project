@@ -45,11 +45,11 @@ pipeline {
             }
         }
 
-        stage('Check the container') {
+        stage('Docker resources') {
             steps {
                 script {
                     sh """
-                    sudo docker ps
+                    docker update --cpus=2 --memory=4g monithor_container
                     """
                 }
             }
