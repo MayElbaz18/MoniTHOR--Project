@@ -34,7 +34,6 @@ RUN mkdir /MoniTHOR--Project && chmod 777 /MoniTHOR--Project
 
 # Copy application code to container
 COPY . /MoniTHOR--Project
-RUN mv /root/.env /MoniTHOR--Project
 
 # Set the working directory
 WORKDIR /MoniTHOR--Project
