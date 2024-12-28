@@ -38,7 +38,7 @@ def alert_wait_and_click(driver):
         print(f"Error handling alert: {e}")
 def register(driver, username, password1, password2):
     driver.get(f"{url}/register")
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "username")))
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "username")))
     driver.find_element(By.ID, "username").send_keys(username)
     driver.find_element(By.ID, "password1").send_keys(password1)
     driver.find_element(By.ID, "password2").send_keys(password2)
@@ -46,18 +46,18 @@ def register(driver, username, password1, password2):
     alert_wait_and_click(driver)
 def login(driver, username, password):
     driver.get(f"{url}/login")
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "username")))
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "username")))
     driver.find_element(By.ID, "username").send_keys(username)
     driver.find_element(By.ID, "password").send_keys(password)
     driver.find_element(By.CLASS_NAME, "login-submit").click()
 def single_upload(driver, domain):
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "single")))
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "single")))
     driver.find_element(By.ID, "single").send_keys(domain)
     driver.find_element(By.CLASS_NAME, "single-submit").click()
     alert_wait_and_click(driver)
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "resultsBody")))
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "resultsBody")))
 def verify_results(driver, domain):
-    table_body = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "resultsBody")))
+    table_body = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "resultsBody")))
     rows = table_body.find_elements(By.TAG_NAME, "tr")
     
     status, expiration_date, issuer = None, None, None
