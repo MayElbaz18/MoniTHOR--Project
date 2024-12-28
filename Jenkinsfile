@@ -55,7 +55,7 @@ pipeline {
             }
         }
 
-        stage('Move .env filr to dir') {
+        stage('Move .env file to dir') {
             steps {
                 script {
                     sh """
@@ -70,7 +70,7 @@ pipeline {
                 dir('selenium'){
                     script {
                         sh """
-                        sudo docker exec monithor_container python selenium/app_testing1\(Firefox\).py
+                        sudo docker exec monithor_container python "selenium/app_testing1(Firefox).py"
                         """
                     }
                 }
