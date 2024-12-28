@@ -55,12 +55,22 @@ pipeline {
             }
         }
 
+        stage('Move .env filr to dir') {
+            steps {
+                script {
+                    sh """
+                    sudo docker cp .env monithor_container:/MoniTHOR--Project
+                    """
+                }
+            }
+        }
+
         // stage('Test App') {
         //     steps {
         //         dir('selenium'){
         //             script {
         //                 sh """
-        //                 sudo docker exec monithor_container python selenium/app_testing1\\(Firefox\\).py
+        //                 sudo docker exec monithor_container python selenium/app_testing1\(Firefox\).py
         //                 """
         //             }
         //         }
