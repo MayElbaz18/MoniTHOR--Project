@@ -21,7 +21,7 @@ def generate_password(length=8):
     all_characters = string.ascii_letters + string.digits #+ string.punctuation
     # Generate a random password
     password = ''.join(random.choice(all_characters) for _ in range(length))
-    password= f"tes{password}ter"
+    password= f"tes({password})ter"
     return password
 
 # Full path to the ChromeDriver executable file
@@ -78,8 +78,9 @@ def login(useraname='tester',password='tester'):
 
 def single_upload(domain):
         # settin single domain input    
+    time.sleep(4)
     input_field = driver.find_element("id", "single")
-    input_field.send_keys(domain)
+    input_field.send_keys(domain)    
     button = driver.find_element("class name", "single-submit")
     button.click()
     alert_wait_and_click()
@@ -120,7 +121,7 @@ def test_single_domain_upload_and_verifcation(unamepass='tester'):
 
 def test_file_upload(unamepass='tester'):
     pre_test(unamepass)    
-    
+    time.sleep(5)
     file_input = driver.find_element("id", "bulk")
     file_path = os.path.abspath('./Domains_for_upload.txt')
     
@@ -174,6 +175,7 @@ def remove_doamins(domain='ALL',unamepass='tester'):
 def schedule_job(unamepass='tester'):    
     pre_test(unamepass)           
     driver.get(f"{url}/dashboard")     
+    time.sleep(5)
     time_input = driver.find_element(By.ID, "schedule-time")
     date_input = driver.find_element(By.ID, "schedule-date")
     interval_input = driver.find_element(By.ID, "interval")    
@@ -223,11 +225,11 @@ def quit():
 if __name__ == "__main__":
     init()
     gp=generate_password()
-    test_single_domain_upload_and_verifcation(gp)
+    # test_single_domain_upload_and_verifcation(gp)
     test_file_upload(gp)  
     schedule_job(gp)
     test_file_upload(gp)  
     remove_doamins('apple.com',gp)  # remove specific doamin 
-    remove_doamins('ALL',gp)  # remove all domains 
+    #remove_doamins('ALL',gp)  # remove all domains 
     quit()
 
