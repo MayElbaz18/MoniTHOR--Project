@@ -59,7 +59,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    sudo docker cp .env monithor_container:/MoniTHOR--Project
+                    sudo docker cp /root/.env monithor_container:/MoniTHOR--Project
                     """
                 }
             }
