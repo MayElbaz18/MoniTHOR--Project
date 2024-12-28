@@ -31,6 +31,7 @@ RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v0.35.0/gec
 
 # Create application directory
 RUN mkdir /MoniTHOR--Project && chmod 777 /MoniTHOR--Project
+RUN mv .env /home/ubuntu/MoniTHOR--Project
 
 # Copy application code to container
 COPY . /MoniTHOR--Project
