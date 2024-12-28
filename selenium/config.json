@@ -1,18 +1,8 @@
 
 {
 "single-domain" : "youtube.com",
-<<<<<<< HEAD
-"host": "http://ec2-34-217-57-216.us-west-2.compute.amazonaws.com",
-=======
-"host": "http://44.243.217.40/",
->>>>>>> 5c672f9e89f0ae33a5841d4949f5315358856bad
+"host": "http://localhost",
 "port" : "8080"
-
-
-
-
-
-
 
 
 }
