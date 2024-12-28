@@ -65,26 +65,26 @@ pipeline {
             }
         }
 
-        // stage('Test App') {
-        //     steps {
-        //         dir('selenium'){
-        //             script {
-        //                 sh """
-        //                 sudo docker exec monithor_container python selenium/app_testing1\(Firefox\).py
-        //                 """
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Test App') {
+            steps {
+                dir('selenium'){
+                    script {
+                        sh """
+                        sudo docker exec monithor_container python selenium/app_testing1\(Firefox\).py
+                        """
+                    }
+                }
+            }
+        }
 
-        // stage('Show Results') {
-        //     steps {
-        //         script {
-        //             sh """
-        //             sudo docker exec monithor_container cat selenium/results.json
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Show Results') {
+            steps {
+                script {
+                    sh """
+                    sudo docker exec monithor_container cat selenium/results.json
+                    """
+                }
+            }
+        }
     }
 }
