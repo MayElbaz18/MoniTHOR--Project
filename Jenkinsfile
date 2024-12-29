@@ -45,16 +45,6 @@ pipeline {
             }
         }
 
-        stage('Docker resources') {
-            steps {
-                script {
-                    sh """
-                    docker update --cpus=2 --memory=4g monithor_container
-                    """
-                }
-            }
-        }
-
         stage('Move .env file to dir') {
             steps {
                 script {
