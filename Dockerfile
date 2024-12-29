@@ -33,7 +33,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends google-chrome-s
     && rm -rf /var/lib/apt/lists/*
 
 # Install ChromeDriver (matching the installed Chrome version)
-RUN sudo apt install -y chromium-browser chromium-chromedriver
+RUN apt install -y chromium-browser chromium-chromedriver
 
 # Create application directory
 RUN mkdir /MoniTHOR--Project && chmod 777 /MoniTHOR--Project
