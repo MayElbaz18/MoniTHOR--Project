@@ -34,7 +34,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends google-chrome-s
     && rm -rf /var/lib/apt/lists/*
 
 # Install specific ChromeDriver version (replace with the correct version)
-RUN wget -q https://chromedriver.storage.googleapis.com/116.0.5845.96/chromedriver_linux64.zip -O /tmp/chromedriver.zip && \
+RUN wget -q https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip -O /tmp/chromedriver.zip && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
