@@ -55,6 +55,16 @@ pipeline {
             }
         }
 
+        stage('Copy the path for chrome driver') {
+            steps {
+                script {
+                    sh """
+                    sudo docker exec monithor_container echo 'export PATH=$PATH:/usr/local/bin/chromedriver' >> ~/.bash_profile
+                    """
+                }
+            }
+        }
+
         stage('Test App') {
             steps {
                 dir('selenium'){
