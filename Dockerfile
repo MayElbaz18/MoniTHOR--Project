@@ -5,6 +5,7 @@ FROM python
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     gnupg \
+    unzip \
     libnss3 \
     libatk1.0-0 \
     libatk-bridge2.0-0 \
@@ -32,9 +33,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends google-chrome-s
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Fetch and install ChromeDriver dynamically
-RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d'.' -f1) && \
-    wget -q https://chromedriver.storage.googleapis.com/$CHROME_VERSION.0.0/chromedriver_linux64.zip -O /tmp/chromedriver.zip && \
+# Install ChromeDriver
+RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}') && \
+    CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION") && \
+    wget -q https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip -O /tmp/chromedriver.zip && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
@@ -53,6 +55,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the default command to run the application
 CMD ["python", "app.py"]
+
 
 
 
