@@ -34,15 +34,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends google-chrome-s
     && rm -rf /var/lib/apt/lists/*
 
 # Install ChromeDriver
-RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d'.' -f1-3) && \
-    echo "Installed Chrome Version: $CHROME_VERSION" && \
-    CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION") && \
-    echo "Fetched ChromeDriver Version: $CHROMEDRIVER_VERSION" && \
-    wget -q https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip -O /tmp/chromedriver.zip && \
+RUN wget -q https://chromedriver.storage.googleapis.com/116.0.5845.96/chromedriver_linux64.zip -O /tmp/chromedriver.zip && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
-    rm /tmp/chromedriver.zip || \
-    (echo "Failed to install ChromeDriver. Verify Chrome version and available driver versions." && exit 1)
+    rm /tmp/chromedriver.zip
 
 # Create application directory
 RUN mkdir /MoniTHOR--Project && chmod 777 /MoniTHOR--Project
