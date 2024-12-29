@@ -1,10 +1,10 @@
 # Use the official Python image from the Docker Hub
 FROM python
-# Install dependencies for Firefox and Selenium
+
+# Install dependencies for Chrome and Selenium
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    firefox-esr \
     wget \
-    tar \
+    gnupg \
     libnss3 \
     libatk1.0-0 \
     libatk-bridge2.0-0 \
@@ -23,11 +23,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Geckodriver (Recommended version for Firefox 128.*)
-RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz -O /tmp/geckodriver.tar.gz && \
-    tar -xvzf /tmp/geckodriver.tar.gz -C /usr/local/bin && \
-    chmod +x /usr/local/bin/geckodriver && \
-    rm /tmp/geckodriver.tar.gz
+# Add Google's official GPG key and set up the stable repository
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+
+# Install Google Chrome
+RUN apt-get update && apt-get install -y --no-install-recommends google-chrome-stable \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install ChromeDriver (matching the installed Chrome version)
+RUN wget -q https://chromedriver.storage.googleapis.com/116.0.5845.96/chromedriver_linux64.zip -O /tmp/chromedriver.zip \
+    && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
+    && chmod +x /usr/local/bin/chromedriver \
+    && rm /tmp/chromedriver.zip
 
 # Create application directory
 RUN mkdir /MoniTHOR--Project && chmod 777 /MoniTHOR--Project
