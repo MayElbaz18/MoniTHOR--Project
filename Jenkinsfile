@@ -22,24 +22,16 @@ pipeline {
                 script {
                     git branch: 'main', url: 'https://github.com/MayElbaz18/MoniTHOR--Project.git'
                 }
+                echo "Clone repo success!"
             }
         }
 
-        stage('Docker build') {
+        stage('Docker build & run - Monithor - WebApp image') {
             steps {
                 script {
                     sh """
                     sudo docker build -t monithor:temp .
-                    """
-                }
-            }
-        }
-
-        stage('Run container') {
-            steps {
-                script {
-                    sh """
-                    sudo docker run -d -p 8080:8080 --name monithor_container monithor:temp
+                    sudo docker run --network host -d -p 8080:8080 --name monithor_container monithor:temp
                     """
                 }
             }
@@ -55,36 +47,27 @@ pipeline {
             }
         }
 
-        stage('Copy the path for chrome driver') {
-            steps {
-                script {
-                    sh """
-                    sudo docker exec monithor_container echo 'export PATH=$PATH:/usr/local/bin/chromedriver' >> ~/.bash_profile
-                    """
-                }
-            }
-        }
-
-        stage('Test App') {
+        stage('Docker build & run - Selenium image') {
             steps {
                 dir('selenium'){
                     script {
                         sh """
-                        sudo docker exec monithor_container python "selenium/app_testing_headless.py"
+                        sudo docker build -t selenium:temp .
+                        sudo docker run -d --network host --name selenium_container
                         """
                     }
                 }
             }
         }
 
-        // stage('Show Results') {
-        //     steps {
-        //         script {
-        //             sh """
-        //             sudo docker exec monithor_container cat selenium/results.json
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Show Results') {
+            steps {
+                script {
+                    sh """
+                    sudo docker logs selenium_container
+                    """
+                }
+            }
+        }
     }
 }
