@@ -2,5 +2,5 @@ FROM selenium/standalone-chrome
 RUN sudo mkdir /testing && sudo chmod 777 /testing
 COPY . /testing 
 WORKDIR /testing
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN python3 -m pip install -r requirements.txt --break-system-packages --ignore-installed
 CMD ["python3", "app_testing_headless.py"]
