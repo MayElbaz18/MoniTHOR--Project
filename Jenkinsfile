@@ -53,7 +53,7 @@ pipeline {
                     script {
                         sh """
                         sudo docker build -t selenium:temp .
-                        sudo docker run -d --network host --name selenium_container
+                        sudo docker run -d --network host --name selenium_container selenium:temp
                         """
                     }
                 }
