@@ -1,7 +1,7 @@
 
 {
 "single-domain" : "youtube.com",
-"host": "http://ec2-44-243-130-160.us-west-2.compute.amazonaws.com",
+"host": "http://127.0.0.1",
 "port" : "8080"
 
 
