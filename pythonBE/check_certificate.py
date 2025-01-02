@@ -1,9 +1,12 @@
 import ssl
 import socket
 from datetime import datetime
+from pythonBE.logs import logger
 
 # Getting ssl certifcation info for url.
 def certificate_check(url):
+    logger.info(f'Get certificate for URL - {url}')
+
     try:
         # Remove "https://", "http://", "www." from the URL if present
         hostname = url.replace("https://", "").replace("http://", "").replace("www.", "").split("/")[0]

@@ -3,7 +3,7 @@ import sys
 
 
 log_level = "DEBUG"
-log_file = "domain.log"
+log_file = "monithor.log"
 
 
 if log_level == 'DEBUG':

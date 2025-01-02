@@ -1,8 +1,9 @@
 import os
 import json
+from pythonBE.logs import logger
   
 def register_user (userName,password1,password2) :
-
+    logger.debug(f'Register Functions is invoked with new User:{userName}')
     successMessage = {'message' : "Registered successfully"}
     failureMessage = {'message' : "Username already taken"}
     emptyMessage = {'message' : "Username or password is Empty"}
@@ -30,6 +31,7 @@ def register_user (userName,password1,password2) :
     
     newUser ={'username':userName,'password': password1 }
     currentListOfUsers.append(newUser)
+    logger.info(f'New User is created - {newUser}')
 
         
     with open('users.json', 'w') as f:
@@ -40,6 +42,7 @@ def register_user (userName,password1,password2) :
 # Login function
 def login_user (userName,password) :
         
+        logger.debug(f'Login Functions is invoked with User:{userName}')
         successMessage = { 'message' : "Login Successful"}
         failureMessage = { 'message' : "error : invalid user name or password"} 
         

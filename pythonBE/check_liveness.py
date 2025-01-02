@@ -14,6 +14,7 @@ from pythonBE.logs import logger
 
 def livness_check (username):
     # Measure start time
+    logger.debug(f'Function "livness_check" is invoked by User- {username}')
     start_date_time = datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M")
     start_time = time.time()    
     urls_queue = Queue()
@@ -42,6 +43,7 @@ def livness_check (username):
             
             #print(certInfo)
             result = {'domain': url, 'status_code': 'FAILED' ,"ssl_expiration":'FAILED',"ssl_Issuer": 'FAILED' }  # Default to FAILED
+            logger.info(f'Check URL - {url}')
             try:
                 response = requests.get(f'http://{url}', timeout=10)
                 logger.info(f"URL To Check:{url}")

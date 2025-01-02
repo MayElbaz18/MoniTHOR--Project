@@ -223,6 +223,7 @@ def results():
 @app.route('/logoff', methods=['GET'])
 def logoff():
     user=session['user']
+    logger.info(f'User: {user} is logoff!')
     if user=="":
         return  ("No user is logged in")    
     session['user']=""    
@@ -237,7 +238,7 @@ def register():
     username = request.args.get('username')
     password1 = request.args.get('password1')
     password2 = request.args.get('password2')
-    logger.debug(f"Received: username={username}, password1={password1}, password2={password2}")
+    logger.debug(f"Received: username={username}, password1={password1}, password2={password2} for register to monithor!")
     # Process registration
     status = user.register_user(username, password1, password2)
 
@@ -264,7 +265,7 @@ def register():
 # Route to add a single domain 
 @app.route('/add_domain/<domainName>',methods=['GET', 'POST'])
 def add_new_domain(domainName):
-    logger.debug(f'Route being code {domainName}')
+    logger.debug(f'New domain added {domainName}')
     if session['user']=="" :
         return "No User is logged in" 
     # Get the domain name from the form data
@@ -275,7 +276,7 @@ def add_new_domain(domainName):
 # Route to remove a single domain 
 @app.route('/remove_domain/<domainName>', methods=['GET', 'POST'])
 def remove_domain(domainName):
-    logger.debug(f'Route being called with domain: {domainName}')
+    logger.debug(f'Remove domain being called to domain: {domainName}')
     if session['user'] == "":
         return "No User is logged in"
 
@@ -307,7 +308,7 @@ def remove_domain(domainName):
 def add_from_file(filename):    
     if session['user']=="" :
         return "No User is logged in"           
-    logger.info(f"File:{filename}")
+    logger.info(f"File for bulk upload:{filename}")
     return domain.add_bulk(session['user'],filename)
     
     
