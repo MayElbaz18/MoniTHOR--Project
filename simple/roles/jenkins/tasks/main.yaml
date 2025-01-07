@@ -36,17 +36,37 @@
       volumes:
         - /var/jenkins_home:/var/jenkins_home
 
-- name: Ensure init.groovy.d directory exists
-  shell: "docker exec jenkins mkdir -p /var/jenkins_home/init.groovy.d"
+  - name: Ensure init.groovy.d directory exists
+    shell: "docker exec jenkins mkdir -p /var/jenkins_home/init.groovy.d"
 
-- name: Copy plugin installation script
-  copy:
-    src: "{{ role_path }}/files/install_plugins.groovy"
-    dest: /var/jenkins_home/init.groovy.d/install_plugins.groovy
-    remote_src: no
+  - name: Retrieve Jenkins initial admin password
+    shell: "docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword"
+    register: admin_password
 
-- name: Restart Jenkins container
-  docker_container:
-    name: jenkins
-    state: started
-    restart: yes
+  - name: Unlock Jenkins with admin password
+    uri:
+      url: "http://{{ ansible_host }}:8080/"
+      method: POST
+      headers:
+        Content-Type: "application/x-www-form-urlencoded"
+      body: "j_username=admin&j_password={{ admin_password.stdout }}"
+      body_format: form-urlencoded
+    ignore_errors: yes  # Ignore in case Jenkins is already unlocked
+
+  - name: Copy admin user creation script
+    copy:
+      src: "{{ role_path }}/files/create_admin_user.groovy"
+      dest: /var/jenkins_home/init.groovy.d/create_admin_user.groovy
+      remote_src: no
+
+  - name: Copy plugin installation script
+    copy:
+      src: "{{ role_path }}/files/install_plugins.groovy"
+      dest: /var/jenkins_home/init.groovy.d/install_plugins.groovy
+      remote_src: no
+
+  - name: Restart Jenkins container
+    docker_container:
+      name: jenkins
+      state: started
+      restart: yes
