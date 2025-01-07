@@ -3,6 +3,12 @@
   roles:
     - common_server
 
+- hosts: ec2_nfs
+  tasks:
+    - name: Set NFS server private ip as a global fact
+      set_fact:
+        nfs_ip_global: "{{ ansible_facts['default_ipv4']['address'] }}"    
+
 - hosts: ec2_jenkins
   tasks:
     - name: Set Jenkins private IP as a global fact
@@ -16,10 +22,6 @@
 - hosts: ec2_nfs
   become: yes
   tasks:
-    - name: Set NFS server private ip as a global fact
-      set_fact:
-        nfs_ip_global: "{{ ansible_facts['default_ipv4']['address'] }}"
-
     - name: Configure NFS with Jenkins private IP
       debug:
         msg: "Configuring NFS with client IP: {{ hostvars[groups['ec2_jenkins'][0]].jenkins_ip_global }}"

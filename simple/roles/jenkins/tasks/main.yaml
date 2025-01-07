@@ -36,13 +36,17 @@
       volumes:
         - /var/jenkins_home:/var/jenkins_home
 
-  - name: Copy plugin installation script
-    copy:
-      src: ./install_plugins.groovy
-      dest: /var/jenkins_home/init.groovy.d/install_plugins.groovy
+- name: Ensure init.groovy.d directory exists
+  shell: "docker exec jenkins mkdir -p /var/jenkins_home/init.groovy.d"
 
-  - name: Restart Jenkins container
-    docker_container:
-      name: jenkins
-      state: restarted
-          
+- name: Copy plugin installation script
+  copy:
+    src: "{{ role_path }}/files/install_plugins.groovy"
+    dest: /var/jenkins_home/init.groovy.d/install_plugins.groovy
+    remote_src: no
+
+- name: Restart Jenkins container
+  docker_container:
+    name: jenkins
+    state: started
+    restart: yes
