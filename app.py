@@ -170,10 +170,8 @@ def login():
 # Route for Dashboard  
 @app.route('/dashboard', methods=['GET'])
 def main():
-    if session['user']!="":
-        user_file = f'./userdata/{session['user']}_domains.json'
-    else:
-        user_file = f'./userdata/Nouser_domains.json'
+    usr=session['user']    
+    user_file =f'./userdata/{usr}_domains.json'
     if os.path.exists(user_file):
      with open(user_file, 'r') as f:
           data = json.load(f)
@@ -202,11 +200,8 @@ def main():
 # Route for user results
 @app.route('/results', methods=['GET'])
 def results():
-    if session['user']!="":
-        user_file = f'./userdata/{session['user']}_domains.json'
-    else:
-        user_file = f'./userdata/Nouser_domains.json'
-    
+    usr=session['user']
+    user_file =f'./userdata/{usr}_domains.json' 
     if os.path.exists(user_file):
      with open(user_file, 'r') as f:
           data = json.load(f)
