@@ -45,7 +45,7 @@
 
   - name: Unlock Jenkins with admin password
     uri:
-      url: "http://{{ ansible_host }}:8080/"
+      url: "http://{{ ansible_host }}:8080/login"
       method: POST
       headers:
         Content-Type: "application/x-www-form-urlencoded"
@@ -63,6 +63,12 @@
     copy:
       src: "{{ role_path }}/files/install_plugins.groovy"
       dest: /var/jenkins_home/init.groovy.d/install_plugins.groovy
+      remote_src: no
+
+  - name: Copy DNS configuration script
+    copy:
+      src: "{{ role_path }}/files/configure_dns.groovy"
+      dest: /var/jenkins_home/init.groovy.d/configure_dns.groovy
       remote_src: no
 
   - name: Restart Jenkins container
