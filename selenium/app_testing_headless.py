@@ -26,7 +26,10 @@ options.add_argument("--disable-dev-shm-usage")
 # Initialize the WebDriver
 service = Service('/usr/bin/chromedriver') # In selenium/standalone-chrome Container
 #service = Service('/usr/lib/chromium-browser/chromedriver')
-driver = webdriver.Chrome(service=service, options=options)
+driver = webdriver.Remote(
+    command_executor="http://localhost:4444/wd/hub",
+    options=options
+)
 
 
 
