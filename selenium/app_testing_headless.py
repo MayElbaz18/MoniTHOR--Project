@@ -24,8 +24,8 @@ options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
 # Initialize the WebDriver
-#service = Service('/usr/bin/chromedriver') # In selenium/standalone-chrome Container
-service = Service('/usr/lib/chromium-browser/chromedriver')
+service = Service('/usr/bin/chromedriver') # In selenium/standalone-chrome Container
+#service = Service('/usr/lib/chromium-browser/chromedriver')
 driver = webdriver.Chrome(service=service, options=options)
 
 
