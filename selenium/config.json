@@ -1,7 +1,7 @@
 
 {
 "single-domain" : "youtube.com",
-"host": "http://35.94.150.57",
+"host": "http://localhost",
 "port" : "8080"
 
 
