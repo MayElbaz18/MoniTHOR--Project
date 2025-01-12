@@ -1,7 +1,7 @@
 import glob
 import os
 import sys
-from flask import request, session
+#from flask import request, session
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -22,15 +22,16 @@ options = Options()
 options.add_argument("--headless")  # Run in headless mode
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
 
-# Initialize the WebDriver
-service = Service('/usr/bin/chromedriver') # In selenium/standalone-chrome Container
-#service = Service('/usr/lib/chromium-browser/chromedriver')
-driver = webdriver.Remote(
-    command_executor="http://localhost:4444/wd/hub",
-    options=options
-)
-
+try:
+    print('Initializing WebDriver')
+    # Initialize the WebDriver
+    service = Service('/usr/bin/chromedriver') # In selenium/standalone-chrome Container
+    #service = Service('/usr/lib/chromium-browser/chromedriver')
+    driver = webdriver.Chrome(service=service, options=options)
+except Exception as e:
+    print(f'Error: {e}')
 
 
 def generate_password(length=8):
@@ -240,9 +241,17 @@ def quit():
     driver.quit()
 
 if __name__ == "__main__":
-    init()
+    print('Initializing..')
+    try:
+        init()
+    except Exception as e:
+        print(f'Error: {e}')
     gp=generate_password()
-    test_single_domain_upload_and_verifcation(gp)
+    try:
+        print('Testing single domain upload')
+        test_single_domain_upload_and_verifcation(gp)
+    except Exception as e:
+        print(f'encountered an error: {e}')
     test_file_upload(gp)
     test_file_upload(gp)
     remove_doamins('apple.com',gp)  # remove specific doamin
