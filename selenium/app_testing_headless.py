@@ -251,9 +251,21 @@ if __name__ == "__main__":
         print('Testing single domain upload')
         test_single_domain_upload_and_verifcation(gp)
     except Exception as e:
-        print(f'encountered an error: {e}')
-    test_file_upload(gp)
-    test_file_upload(gp)
-    remove_doamins('apple.com',gp)  # remove specific doamin
-    remove_doamins('ALL',gp)  # remove all domains
-    quit()
+        print(f'An Error: {e}')
+    try:   
+        print('Testing File Uploads') 
+        test_file_upload(gp)
+        test_file_upload(gp)
+    except Exception as e:
+        print(f'An Error: {e}') 
+    try:
+        print('Testing Remove Domains From File - Single Domains And All Domains')       
+        remove_doamins('apple.com',gp)  # remove specific doamin
+        remove_doamins('ALL',gp)  # remove all domains
+    except Exception as e:
+        print(f'An Error: {e}')
+    try:
+        print('Testing Monithor App Complete!')        
+        quit()
+    except Exception as e:
+        print(f'An Error: {e}')    
