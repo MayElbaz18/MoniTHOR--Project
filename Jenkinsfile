@@ -64,7 +64,8 @@ pipeline {
             steps {
                 script {
                     sh """
-                    sudo docker logs selenium_container
+                    sleep 10 && sudo docker logs selenium_container
+                    sleep 2 && sudo docker logs monithor_container 
                     """
                 }
             }
