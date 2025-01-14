@@ -60,16 +60,25 @@ pipeline {
             }
         }
 
-        stage('Show Results') {
+        stage('Show Results - Selenium') {
             steps {
                 script {
                     sh """
-                    sleep 5 && sudo docker logs -f selenium_container
-                    sleep 2 && sudo docker logs monithor_container 
+                    sudo docker logs -f selenium_container
                     """
                 }
             }
           
+        }
+
+        stage('Check Requests In Monithor-WebApp') {
+            steps {
+                script {
+                    sh """
+                    sudo docker logs monithor_container
+                    """
+                }
+            }
         }
     }
 }
