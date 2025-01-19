@@ -31,7 +31,7 @@ def test_user_registration(driver):
     success_message = driver.find_element(By.TAG_NAME, 'body').text
     assert "User registered successfully!" in success_message
 
-    with open('users.json', 'r') as f:
+    with open('./userdata/users.json', 'r') as f:
         users = json.load(f)
     assert 'Test' in users
     assert users['Test'] == 'Test111'

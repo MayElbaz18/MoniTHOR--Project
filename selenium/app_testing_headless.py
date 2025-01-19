@@ -224,8 +224,8 @@ def schedule_job(unamepass='tester'):
     time.sleep(2)
 
 def init():
-    if os.path.exists('../users.json'):
-        os.remove('../users.json')
+    if os.path.exists('.././userdata/users.json'):
+        os.remove('.././userdata/users.json')
 
     pattern = os.path.join('../userdata', 'tester*.json')
     files = glob.glob(pattern)

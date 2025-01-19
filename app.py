@@ -130,15 +130,15 @@ def google_callback():
             "username": userinfo["email"]
         }
         logger.info(f'{userinfo["email"]} Login With Google Account')
-        # Save the user to users.json if not already saved
-        with open('users.json', 'r') as f:
+        # Save the user to ./userdata/users.json if not already saved
+        with open('./userdata/users.json', 'r') as f:
           current_info = json.load(f)
           currentListOfUsers=list(current_info)
 
         # Check if the user already exists
         if not any(user['username'] == google_user["username"] for user in currentListOfUsers):
             currentListOfUsers.append({"username": google_user["username"]})
-            with open('users.json', 'w') as f:
+            with open('./userdata/users.json', 'w') as f:
                 json.dump(currentListOfUsers, f, indent=4)
 
         # Log the user in and redirect to the dashboard
