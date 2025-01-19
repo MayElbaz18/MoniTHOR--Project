@@ -254,8 +254,7 @@ if __name__ == "__main__":
         print(f'An Error: {e}')
     try:   
         print('Testing File Uploads') 
-        test_file_upload(gp)
-        test_file_upload(gp)
+        test_file_upload(gp)        
     except Exception as e:
         print(f'An Error: {e}') 
     try:
